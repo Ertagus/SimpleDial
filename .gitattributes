@@ -1,0 +1,6 @@
+# I file dell'estensione sono spediti con fine riga LF: il repository e le
+# copie di lavoro devono restare identici al pacchetto caricato sullo Store,
+# su qualunque sistema operativo.
+* text=auto eol=lf
+*.png binary
+*.zip binary

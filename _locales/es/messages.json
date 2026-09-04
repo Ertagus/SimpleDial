@@ -1,0 +1,152 @@
+{
+  "extName": {
+    "message": "SimpleDial"
+  },
+  "extDesc": {
+    "message": "Detecta números de teléfono en las páginas web y los marca mediante tel:, con la aplicación de teléfono predeterminada."
+  },
+  "actionTitle": {
+    "message": "SimpleDial — abrir la aplicación de teléfono"
+  },
+  "menuCall": {
+    "message": "Llamar"
+  },
+  "menuCallNumber": {
+    "message": "Llamar a $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "menuHandlers": {
+    "message": "Gestores del protocolo tel:…"
+  },
+  "optTitle": {
+    "message": "SimpleDial — Opciones"
+  },
+  "optHeading": {
+    "message": "📞 SimpleDial — Opciones"
+  },
+  "infoBox": {
+    "message": "SimpleDial se limita a reconocer los números y a abrir <code>tel:número</code>. Quién atiende la llamada depende del gestor registrado en el navegador o en el sistema operativo.<br><br>El clic derecho sobre un enlace o sobre un número seleccionado muestra la opción <strong>Llamar</strong>. El icono de la barra de herramientas abre <code>tel:</code> sin número, mostrando la aplicación de teléfono tal cual.<br><br>En la primera llamada el navegador pide una sola vez autorización para abrir la aplicación asociada. Una vez concedida, no vuelve a pedirla en ningún sitio."
+  },
+  "cardRecognition": {
+    "message": "Reconocimiento de números"
+  },
+  "recognitionHint": {
+    "message": "Expresión regular aplicada al candidato tras eliminar espacios, puntos, guiones y paréntesis. Las alternativas se separan con <code>|</code>. Si no se puede compilar, se usan las reglas predeterminadas."
+  },
+  "btnResetRegex": {
+    "message": "↺ Restaurar reglas predeterminadas"
+  },
+  "regexInvalid": {
+    "message": "Expresión no válida — si se guarda, se usarán las reglas predeterminadas."
+  },
+  "cardTest": {
+    "message": "Prueba"
+  },
+  "testHint": {
+    "message": "Escribe un número tal como aparecería en una página para ver si se reconocería con la regla configurada actualmente."
+  },
+  "testPlaceholder": {
+    "message": "900 123 456"
+  },
+  "testOk": {
+    "message": "✓ reconocido → tel:$number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "testNo": {
+    "message": "✕ no reconocido"
+  },
+  "cardProtocol": {
+    "message": "Protocolo de marcación"
+  },
+  "protocolHint": {
+    "message": "Esquema entregado al gestor registrado en el sistema. <code>tel:</code> sirve casi siempre. Cámbialo si tu softphone solo responde a otro esquema: algunos clientes se registran en <code>callto:</code> o <code>sip:</code>."
+  },
+  "cardPopup": {
+    "message": "Icono de la barra de herramientas"
+  },
+  "popupToggle": {
+    "message": "Abrir un panel de marcación en lugar de la aplicación de teléfono"
+  },
+  "popupToggleHint": {
+    "message": "Desactivado de forma predeterminada: al hacer clic en el icono se abre directamente la aplicación de teléfono. Si se activa aparece un pequeño panel donde escribir un número — útil para los números que no están en la página."
+  },
+  "popupTitle": {
+    "message": "Marcar un número"
+  },
+  "popupCall": {
+    "message": "Llamar"
+  },
+  "popupHint": {
+    "message": "Deja el campo vacío para abrir solo la aplicación de teléfono."
+  },
+  "popupUnusual": {
+    "message": "Formato inusual — se marcará igualmente."
+  },
+  "cardQr": {
+    "message": "Llamar con un código QR"
+  },
+  "qrToggle": {
+    "message": "Mostrar un código QR en lugar de abrir la aplicación de teléfono"
+  },
+  "qrToggleHint": {
+    "message": "En lugar de abrir la aplicación de teléfono del ordenador, SimpleDial muestra un código QR: enfócalo con la cámara del móvil para iniciar la llamada desde ahí. Mientras esté activado, el icono de la barra de herramientas siempre abre el panel para escribir, y el QR siempre usa tel:, sea cual sea el protocolo de marcación configurado abajo."
+  },
+  "qrPageTitle": {
+    "message": "Llamar con un código QR"
+  },
+  "qrScanHint": {
+    "message": "Enfoca el código con la cámara del móvil para iniciar la llamada."
+  },
+  "qrCallHere": {
+    "message": "Llamar desde este ordenador"
+  },
+  "qrNoNumber": {
+    "message": "Sin número: escribe uno en el panel de marcación."
+  },
+  "popupQrHint": {
+    "message": "Se abrirá un código QR para este número."
+  },
+  "cardHandlers": {
+    "message": "Gestor del protocolo tel:"
+  },
+  "handlersHint": {
+    "message": "Chrome enumera en <code>chrome://settings/handlers</code> las aplicaciones web autorizadas a gestionar <code>tel:</code> y permite revocarlas. Si el número debe llegar a un softphone instalado en el ordenador, esa asociación corresponde al sistema operativo y no aparece aquí."
+  },
+  "btnHandlers": {
+    "message": "↗ Abrir la configuración de gestores de Chrome"
+  },
+  "handlersCopied": {
+    "message": "Dirección copiada — pégala en la barra de direcciones"
+  },
+  "handlersManual": {
+    "message": "Abre manualmente $url$",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "chrome://settings/handlers"
+      }
+    }
+  },
+  "btnSave": {
+    "message": "💾 Guardar"
+  },
+  "statusSaved": {
+    "message": "✓ Guardado"
+  },
+  "statusSavedInvalid": {
+    "message": "✓ Guardado — expresión no válida, se usarán las reglas predeterminadas"
+  },
+  "statusReset": {
+    "message": "✓ Reglas restauradas"
+  }
+}

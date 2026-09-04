@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title data-i18n="optTitle">SimpleDial — Options</title>
+  <style>
+    :root {
+      --bg:     #0d1117;
+      --card:   #161b22;
+      --border: #30363d;
+      --text:   #e6edf3;
+      --muted:  #7d8590;
+      --accent: #3d8bff;
+      --green:  #2ea043;
+      --red:    #da3633;
+      --mono:   'Courier New', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px; min-height: 100vh;
+      display: flex; justify-content: center; padding: 40px 16px;
+    }
+    .container { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 24px; }
+    h1 { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: .06em; }
+    .divider { height: 1px; background: var(--border); }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .card-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      color: var(--muted); text-transform: uppercase;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    input, textarea {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-size: 12px;
+      font-family: var(--mono); padding: 9px 12px; outline: none;
+      transition: border-color .15s; line-height: 1.6;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+    input:focus, textarea:focus { border-color: var(--accent); }
+    input.invalid, textarea.invalid { border-color: var(--red); }
+    input::placeholder { color: var(--muted); }
+    .hint { font-size: 11px; color: var(--muted); line-height: 1.6; }
+    code { font-family: var(--mono); color: var(--accent); font-size: 11px; }
+    .validation-msg { font-size: 11px; color: var(--red); min-height: 15px; }
+    .warn-inline { color: #e0a040; }
+    .btn {
+      border: none; border-radius: 8px; cursor: pointer;
+      font-size: 13px; font-weight: 700; padding: 11px 16px; width: 100%;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-reset {
+      background: #1a1f2a; color: var(--accent);
+      border: 1px solid #2a3a5a; font-size: 12px; font-weight: 700;
+    }
+    .actions { display: flex; flex-direction: column; gap: 10px; }
+    .status { font-size: 12px; text-align: center; min-height: 18px; color: var(--muted); }
+    .status.ok { color: var(--green); }
+    .status.warn { color: #e0a040; }
+    .test-result { font-size: 12px; min-height: 18px; font-family: var(--mono); }
+    .test-ok { color: var(--green); }
+    .test-no { color: var(--muted); }
+    .info-box {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: #0d2438; border: 1px solid #1d4a6a; border-radius: 8px;
+      padding: 12px 14px; font-size: 12px; color: #79c0ff; line-height: 1.6;
+    }
+    .info-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-size: 13px;
+      padding: 9px 12px; outline: none; cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    select:focus { border-color: var(--accent); }
+    .check-row {
+      display: flex; gap: 10px; align-items: flex-start;
+      cursor: pointer; font-size: 13px; line-height: 1.5;
+    }
+    .check-row input {
+      width: auto; margin-top: 2px; flex-shrink: 0; accent-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 data-i18n="optHeading">📞 SimpleDial — Options</h1>
+    <div class="divider"></div>
+
+    <div class="info-box">
+      <span class="info-icon">ℹ️</span>
+      <div data-i18n-html="infoBox">
+        SimpleDial only recognizes numbers and opens <code>tel:number</code>. Who answers the call depends on the handler registered in the browser or in the operating system.<br><br>Right-clicking a link or a selected number shows the <strong>Call</strong> entry. The toolbar icon opens <code>tel:</code> with no number, bringing up the phone application as it is.<br><br>On the first call the browser asks once for permission to open the associated application. Once granted, it never asks again, on any site.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardRecognition">Number recognition</div>
+      <p class="hint" data-i18n-html="recognitionHint">
+        Regular expression applied to the candidate after removing spaces, dots, hyphens and brackets. Alternatives are separated with <code>|</code>. If it cannot be compiled, the default rules are used.
+      </p>
+      <textarea id="cfgRegex" spellcheck="false"></textarea>
+      <div class="validation-msg" id="regexError"></div>
+      <button class="btn btn-reset" id="btnResetRegex" data-i18n="btnResetRegex">↺ Restore default rules</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardTest">Test</div>
+      <p class="hint" data-i18n="testHint">
+        Type a number as it would appear on a page to see whether it would be recognized with the rule currently set.
+      </p>
+      <input type="text" id="cfgTest" placeholder="+1 555 010 1234" data-i18n-placeholder="testPlaceholder" spellcheck="false">
+      <div class="test-result" id="testResult"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardHandlers">tel: protocol handler</div>
+      <p class="hint" data-i18n-html="handlersHint">
+        Chrome lists at <code>chrome://settings/handlers</code> the web applications allowed to handle <code>tel:</code> and lets you revoke them. If the number is meant to reach a softphone installed on the computer, that association belongs to the operating system and does not appear here.
+      </p>
+      <button class="btn btn-reset" id="btnHandlers" data-i18n="btnHandlers">↗ Open Chrome handler settings</button>
+      <div class="status" id="handlersStatus"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardPopup">Toolbar icon</div>
+      <label class="check-row">
+        <input type="checkbox" id="cfgPopup">
+        <span data-i18n="popupToggle">Open a dialing panel instead of the phone application</span>
+      </label>
+      <p class="hint" data-i18n="popupToggleHint">
+        Off by default: clicking the icon opens the phone application straight away. When on, a small panel appears where a number can be typed — useful for numbers that are not on the page.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardQr">Call by QR code</div>
+      <label class="check-row">
+        <input type="checkbox" id="cfgQr">
+        <span data-i18n="qrToggle">Show a QR code instead of opening the phone application</span>
+      </label>
+      <p class="hint" data-i18n="qrToggleHint">
+        Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. While this is on, the toolbar icon always opens the typing panel, and the QR always uses tel: whatever the dialing protocol below is set to.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title" data-i18n="cardProtocol">Dialing protocol</div>
+      <p class="hint" data-i18n-html="protocolHint">
+        Scheme handed to the handler registered in the system. <code>tel:</code> is right almost always. Change it if your softphone only answers to another scheme: some clients register for <code>callto:</code> or <code>sip:</code>.
+      </p>
+      <select id="cfgScheme">
+        <option value="tel">tel:</option>
+        <option value="callto">callto:</option>
+        <option value="sip">sip:</option>
+        <option value="skype">skype:</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="actions">
+        <button class="btn btn-primary" id="btnSave" data-i18n="btnSave">💾 Save</button>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

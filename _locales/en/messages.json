@@ -1,0 +1,152 @@
+{
+  "extName": {
+    "message": "SimpleDial"
+  },
+  "extDesc": {
+    "message": "Detects phone numbers on web pages and dials them via tel:, using your system's default phone application."
+  },
+  "actionTitle": {
+    "message": "SimpleDial — open the phone application"
+  },
+  "menuCall": {
+    "message": "Call"
+  },
+  "menuCallNumber": {
+    "message": "Call $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "menuHandlers": {
+    "message": "tel: protocol handlers…"
+  },
+  "optTitle": {
+    "message": "SimpleDial — Options"
+  },
+  "optHeading": {
+    "message": "📞 SimpleDial — Options"
+  },
+  "infoBox": {
+    "message": "SimpleDial only recognizes numbers and opens <code>tel:number</code>. Who answers the call depends on the handler registered in the browser or in the operating system.<br><br>Right-clicking a link or a selected number shows the <strong>Call</strong> entry. The toolbar icon opens <code>tel:</code> with no number, bringing up the phone application as it is.<br><br>On the first call the browser asks once for permission to open the associated application. Once granted, it never asks again, on any site."
+  },
+  "cardRecognition": {
+    "message": "Number recognition"
+  },
+  "recognitionHint": {
+    "message": "Regular expression applied to the candidate after removing spaces, dots, hyphens and brackets. Alternatives are separated with <code>|</code>. If it cannot be compiled, the default rules are used."
+  },
+  "btnResetRegex": {
+    "message": "↺ Restore default rules"
+  },
+  "regexInvalid": {
+    "message": "Invalid expression — if saved, the default rules will be used."
+  },
+  "cardTest": {
+    "message": "Test"
+  },
+  "testHint": {
+    "message": "Type a number as it would appear on a page to see whether it would be recognized with the rule currently set."
+  },
+  "testPlaceholder": {
+    "message": "+1 555 010 1234"
+  },
+  "testOk": {
+    "message": "✓ recognized → tel:$number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "testNo": {
+    "message": "✕ not recognized"
+  },
+  "cardProtocol": {
+    "message": "Dialing protocol"
+  },
+  "protocolHint": {
+    "message": "Scheme handed to the handler registered in the system. <code>tel:</code> is right almost always. Change it if your softphone only answers to another scheme: some clients register for <code>callto:</code> or <code>sip:</code>."
+  },
+  "cardPopup": {
+    "message": "Toolbar icon"
+  },
+  "popupToggle": {
+    "message": "Open a dialing panel instead of the phone application"
+  },
+  "popupToggleHint": {
+    "message": "Off by default: clicking the icon opens the phone application straight away. When on, a small panel appears where a number can be typed — useful for numbers that are not on the page."
+  },
+  "popupTitle": {
+    "message": "Dial a number"
+  },
+  "popupCall": {
+    "message": "Call"
+  },
+  "popupHint": {
+    "message": "Leave the field empty to just open the phone application."
+  },
+  "popupUnusual": {
+    "message": "Unusual format — it will be dialed anyway."
+  },
+  "cardQr": {
+    "message": "Call by QR code"
+  },
+  "qrToggle": {
+    "message": "Show a QR code instead of opening the phone application"
+  },
+  "qrToggleHint": {
+    "message": "Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. While this is on, the toolbar icon always opens the typing panel, and the QR always uses tel: whatever the dialing protocol below is set to."
+  },
+  "qrPageTitle": {
+    "message": "Call by QR code"
+  },
+  "qrScanHint": {
+    "message": "Point your phone's camera at the code to start the call."
+  },
+  "qrCallHere": {
+    "message": "Call from this computer instead"
+  },
+  "qrNoNumber": {
+    "message": "No number — type one in the dialing panel."
+  },
+  "popupQrHint": {
+    "message": "A QR code will open for this number."
+  },
+  "cardHandlers": {
+    "message": "tel: protocol handler"
+  },
+  "handlersHint": {
+    "message": "Chrome lists at <code>chrome://settings/handlers</code> the web applications allowed to handle <code>tel:</code> and lets you revoke them. If the number is meant to reach a softphone installed on the computer, that association belongs to the operating system and does not appear here."
+  },
+  "btnHandlers": {
+    "message": "↗ Open Chrome handler settings"
+  },
+  "handlersCopied": {
+    "message": "Address copied — paste it in the address bar"
+  },
+  "handlersManual": {
+    "message": "Open $url$ manually",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "chrome://settings/handlers"
+      }
+    }
+  },
+  "btnSave": {
+    "message": "💾 Save"
+  },
+  "statusSaved": {
+    "message": "✓ Saved"
+  },
+  "statusSavedInvalid": {
+    "message": "✓ Saved — invalid expression, the default rules will be used"
+  },
+  "statusReset": {
+    "message": "✓ Rules restored"
+  }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title data-i18n="qrPageTitle">Call by QR code</title>
+<style>
+  :root {
+    --bg: #1a1d23; --card: #22262e; --border: #333944;
+    --text: #e4e7ec; --muted: #8b93a1; --accent: #4a9eff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px; padding: 18px 18px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  h1 { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+  #qr {
+    width: 232px; height: 232px; background: #fff; border-radius: 10px;
+    padding: 12px; display: flex; align-items: center; justify-content: center;
+  }
+  #qr svg { width: 100%; height: 100%; display: block; }
+  #number {
+    font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums;
+    letter-spacing: .03em; word-break: break-all; text-align: center;
+  }
+  #hint { color: var(--muted); font-size: 12px; line-height: 1.5; text-align: center; }
+  #callHere {
+    background: transparent; color: var(--accent);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 14px; font-size: 12px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+  }
+  #callHere:hover { border-color: var(--accent); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+  <h1 data-i18n="qrPageTitle">Call by QR code</h1>
+  <div id="qr"></div>
+  <div id="number"></div>
+  <div id="hint" data-i18n="qrScanHint">
+    Point your phone's camera at the code to start the call.
+  </div>
+  <button id="callHere" data-i18n="qrCallHere">Call from this computer instead</button>
+  <script src="qrcode-generator.js"></script>
+  <script src="qr.js"></script>
+</body>
+</html>

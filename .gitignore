@@ -1,0 +1,11 @@
+# Note di lavoro, non fanno parte dell'estensione pubblicata
+CHROMEWEBSTORE.md
+
+# Ambiente e strumenti locali
+.claude/
+.agents/
+.mcp.json
+skills-lock.json
+
+# Sorgenti degli screenshot e appunti di lavoro
+store-assets/_*

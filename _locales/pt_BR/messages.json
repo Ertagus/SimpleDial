@@ -1,0 +1,152 @@
+{
+  "extName": {
+    "message": "SimpleDial"
+  },
+  "extDesc": {
+    "message": "Detecta números de telefone em páginas da web e disca via tel:, usando o aplicativo de telefone padrão do sistema."
+  },
+  "actionTitle": {
+    "message": "SimpleDial — abrir o aplicativo de telefone"
+  },
+  "menuCall": {
+    "message": "Ligar"
+  },
+  "menuCallNumber": {
+    "message": "Ligar para $number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "menuHandlers": {
+    "message": "Gerenciadores do protocolo tel:…"
+  },
+  "optTitle": {
+    "message": "SimpleDial — Opções"
+  },
+  "optHeading": {
+    "message": "📞 SimpleDial — Opções"
+  },
+  "infoBox": {
+    "message": "O SimpleDial apenas reconhece os números e abre <code>tel:número</code>. Quem atende a chamada depende do gerenciador registrado no navegador ou no sistema operacional.<br><br>O clique com o botão direito em um link ou em um número selecionado mostra a opção <strong>Ligar</strong>. O ícone na barra de ferramentas abre <code>tel:</code> sem número, trazendo o aplicativo de telefone como está.<br><br>Na primeira chamada o navegador pede uma única vez autorização para abrir o aplicativo associado. Concedida essa permissão, ele não pede mais, em nenhum site."
+  },
+  "cardRecognition": {
+    "message": "Reconhecimento de números"
+  },
+  "recognitionHint": {
+    "message": "Expressão regular aplicada ao candidato depois de removidos espaços, pontos, hífens e parênteses. As alternativas são separadas por <code>|</code>. Se não for compilável, valem as regras padrão."
+  },
+  "btnResetRegex": {
+    "message": "↺ Restaurar regras padrão"
+  },
+  "regexInvalid": {
+    "message": "Expressão inválida — se salva, serão usadas as regras padrão."
+  },
+  "cardTest": {
+    "message": "Teste"
+  },
+  "testHint": {
+    "message": "Digite um número como ele apareceria em uma página para ver se seria reconhecido com a regra definida no momento."
+  },
+  "testPlaceholder": {
+    "message": "(11) 5555-1234"
+  },
+  "testOk": {
+    "message": "✓ reconhecido → tel:$number$",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "+15550101234"
+      }
+    }
+  },
+  "testNo": {
+    "message": "✕ não reconhecido"
+  },
+  "cardProtocol": {
+    "message": "Protocolo de discagem"
+  },
+  "protocolHint": {
+    "message": "Esquema entregue ao gerenciador registrado no sistema. <code>tel:</code> serve quase sempre. Mude se o seu softphone responder apenas a outro esquema: alguns clientes se registram em <code>callto:</code> ou <code>sip:</code>."
+  },
+  "cardPopup": {
+    "message": "Ícone na barra de ferramentas"
+  },
+  "popupToggle": {
+    "message": "Abrir um painel de discagem em vez do aplicativo de telefone"
+  },
+  "popupToggleHint": {
+    "message": "Desativado por padrão: clicar no ícone abre direto o aplicativo de telefone. Quando ativado, aparece um pequeno painel para digitar um número — útil para números que não estão na página."
+  },
+  "popupTitle": {
+    "message": "Discar um número"
+  },
+  "popupCall": {
+    "message": "Ligar"
+  },
+  "popupHint": {
+    "message": "Deixe o campo vazio para abrir apenas o aplicativo de telefone."
+  },
+  "popupUnusual": {
+    "message": "Formato incomum — será discado mesmo assim."
+  },
+  "cardQr": {
+    "message": "Ligar com um código QR"
+  },
+  "qrToggle": {
+    "message": "Mostrar um código QR em vez de abrir o aplicativo de telefone"
+  },
+  "qrToggleHint": {
+    "message": "Em vez de abrir o aplicativo de telefone do computador, o SimpleDial mostra um código QR: aponte a câmera do celular para ele para iniciar a chamada por lá. Enquanto isso estiver ativado, o ícone na barra de ferramentas sempre abre o painel de digitação, e o QR sempre usa tel:, seja qual for o protocolo de discagem definido abaixo."
+  },
+  "qrPageTitle": {
+    "message": "Ligar com um código QR"
+  },
+  "qrScanHint": {
+    "message": "Aponte a câmera do celular para o código para iniciar a chamada."
+  },
+  "qrCallHere": {
+    "message": "Ligar deste computador"
+  },
+  "qrNoNumber": {
+    "message": "Sem número — digite um no painel de discagem."
+  },
+  "popupQrHint": {
+    "message": "Um código QR será aberto para este número."
+  },
+  "cardHandlers": {
+    "message": "Gerenciador do protocolo tel:"
+  },
+  "handlersHint": {
+    "message": "O Chrome lista em <code>chrome://settings/handlers</code> os aplicativos web autorizados a tratar <code>tel:</code> e permite revogá-los. Se o número deve chegar a um softphone instalado no computador, essa associação é do sistema operacional e não aparece aqui."
+  },
+  "btnHandlers": {
+    "message": "↗ Abrir as configurações de gerenciadores do Chrome"
+  },
+  "handlersCopied": {
+    "message": "Endereço copiado — cole na barra de endereços"
+  },
+  "handlersManual": {
+    "message": "Abra manualmente $url$",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "chrome://settings/handlers"
+      }
+    }
+  },
+  "btnSave": {
+    "message": "💾 Salvar"
+  },
+  "statusSaved": {
+    "message": "✓ Salvo"
+  },
+  "statusSavedInvalid": {
+    "message": "✓ Salvo — expressão inválida, serão usadas as regras padrão"
+  },
+  "statusReset": {
+    "message": "✓ Regras restauradas"
+  }
+}
