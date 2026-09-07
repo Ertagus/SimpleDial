@@ -1,9 +1,11 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "__MSG_extDesc__",
   "default_locale": "en",
+  "homepage_url": "https://chromewebstore.google.com/detail/simpledial/mpgblhliidfflfdofhpbhjijmncnamfk",
+  "author": { "email": "Ertagus@gmail.com" },
   "permissions": [
     "storage",
     "contextMenus"

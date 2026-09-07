@@ -3,7 +3,7 @@
     "message": "SimpleDial"
   },
   "extDesc": {
-    "message": "Erkennt Telefonnummern auf Webseiten und wählt sie über tel: mit der Standard-Telefonanwendung des Systems."
+    "message": "Rechtsklick auf eine Nummer oder Klick auf einen tel:-Link: SimpleDial zeigt einen QR-Code fürs Handy oder öffnet den tel:-Handler."
   },
   "actionTitle": {
     "message": "SimpleDial — Telefonanwendung öffnen"
@@ -30,10 +30,7 @@
     "message": "📞 SimpleDial — Optionen"
   },
   "infoBox": {
-    "message": "SimpleDial erkennt lediglich Nummern und öffnet <code>tel:nummer</code>. Wer den Anruf entgegennimmt, hängt vom Handler ab, der im Browser oder im Betriebssystem registriert ist.<br><br>Ein Rechtsklick auf einen Link oder auf eine markierte Nummer zeigt den Eintrag <strong>Anrufen</strong>. Das Symbol in der Symbolleiste öffnet <code>tel:</code> ohne Nummer und ruft damit die Telefonanwendung unverändert auf.<br><br>Beim ersten Anruf fragt der Browser einmalig nach der Erlaubnis, die zugehörige Anwendung zu öffnen. Danach fragt er auf keiner Website mehr nach."
-  },
-  "cardRecognition": {
-    "message": "Nummernerkennung"
+    "message": "SimpleDial erkennt Nummern und übergibt sie lediglich – es wählt nie selbst und verändert nie die Seite, die du gerade ansiehst.<br><br><b>Was einen Anruf auslöst:</b> Rechtsklick auf einen <code>tel:</code>-Link oder eine markierte Nummer und <b>Anrufen</b> wählen; oder ein Klick auf das Symbol in der Leiste. Auch ein einfacher Linksklick auf einen <code>tel:</code>-Link kann über SimpleDial laufen, ist aber aus, bis du es unten aktivierst.<br><br><b>Wohin er geht:</b> an den im Browser oder System registrierten Handler – oder, bei aktiver QR-Option, an einen Code, den du mit dem Handy scannst, auf diesem Computer erzeugt und nirgendwohin gesendet.<br><br>Sobald ein Anruf über SimpleDial läuft, fragt der Browser <b>einmal</b> nach der Erlaubnis, die externe Anwendung zu öffnen, und fragt danach auf keiner Website erneut. Links, die ohne diese Option angeklickt werden, fragen wie gewohnt pro Website."
   },
   "recognitionHint": {
     "message": "Regulärer Ausdruck, der auf den Kandidaten angewendet wird, nachdem Leerzeichen, Punkte, Bindestriche und Klammern entfernt wurden. Alternativen werden mit <code>|</code> getrennt. Ist er nicht kompilierbar, gelten die Standardregeln."
@@ -78,7 +75,7 @@
     "message": "Ein Wählfeld statt der Telefonanwendung öffnen"
   },
   "popupToggleHint": {
-    "message": "Standardmäßig aus: ein Klick auf das Symbol öffnet direkt die Telefonanwendung. Eingeschaltet erscheint ein kleines Feld zur Eingabe einer Nummer — nützlich für Nummern, die nicht auf der Seite stehen."
+    "message": "Standardmäßig aus: Ein Klick auf das Symbol öffnet direkt die Telefon-Anwendung – eine reine Verknüpfung zum Dialer, mit oder ohne QR-Option. Aktiviere es für ein kleines Feld, in dem du eine Nummer eingeben kannst, die nicht auf der Seite steht."
   },
   "popupTitle": {
     "message": "Nummer wählen"
@@ -99,7 +96,7 @@
     "message": "Einen QR-Code anzeigen, statt die Telefon-Anwendung zu öffnen"
   },
   "qrToggleHint": {
-    "message": "Statt die Telefon-Anwendung des Computers zu öffnen, zeigt SimpleDial einen QR-Code an: Richte die Kamera deines Handys darauf, um den Anruf von dort zu starten. Solange dies aktiv ist, öffnet das Symbol in der Symbolleiste immer das Eingabefeld, und der QR-Code verwendet immer tel:, unabhängig vom unten eingestellten Wählprotokoll."
+    "message": "Statt die Telefon-Anwendung des Computers zu öffnen, zeigt SimpleDial einen QR-Code: Richte die Handykamera darauf, um den Anruf von dort zu starten. Der QR-Code verwendet immer <code>tel:</code>, unabhängig vom unten eingestellten Wählprotokoll."
   },
   "qrPageTitle": {
     "message": "Mit QR-Code anrufen"
@@ -116,6 +113,15 @@
   "popupQrHint": {
     "message": "Für diese Nummer wird ein QR-Code geöffnet."
   },
+  "cardIntercept": {
+    "message": "Klick auf tel:-Links"
+  },
+  "interceptToggle": {
+    "message": "Linksklick auf bereits vorhandene tel:-Links übernehmen"
+  },
+  "interceptToggleHint": {
+    "message": "<b>Standardmäßig aus.</b> Aktiviert, läuft ein Linksklick auf einen <code>tel:</code>-Link über SimpleDial statt über den Browser und endet im oben gewählten Modus – genau wie Rechtsklick &gt; Anrufen.<br><br><b>Warum aktivieren:</b> Der Browser fragt <b>einmal</b> nach der Erlaubnis, die Telefon-Anwendung zu öffnen, statt auf jeder neuen Website erneut.<br><br><b>Warum nicht standardmäßig an:</b> Diese Abfrage pro Website ist eine Sicherheitsprüfung, und sie zu überspringen sollte deine Entscheidung sein. Rechtsklick &gt; Anrufen läuft ohnehin über SimpleDial. Die Seite wird nie verändert, und mit gedrückter Ctrl-, Shift- oder Alt-Taste gilt immer das normale Browserverhalten."
+  },
   "cardHandlers": {
     "message": "Handler für das tel:-Protokoll"
   },
@@ -124,9 +130,6 @@
   },
   "btnHandlers": {
     "message": "↗ Chrome-Handler-Einstellungen öffnen"
-  },
-  "handlersCopied": {
-    "message": "Adresse kopiert — in die Adressleiste einfügen"
   },
   "handlersManual": {
     "message": "$url$ manuell öffnen",
@@ -148,5 +151,29 @@
   },
   "statusReset": {
     "message": "✓ Regeln wiederhergestellt"
+  },
+  "secNumbers": {
+    "message": "1 · Was als Telefonnummer gilt"
+  },
+  "secHow": {
+    "message": "2 · Wie der Anruf hinausgeht"
+  },
+  "secWhen": {
+    "message": "3 · Was einen Anruf auslöst"
+  },
+  "secSystem": {
+    "message": "4 · System-Handler"
+  },
+  "protocolScope": {
+    "message": "Gilt für Anrufe von diesem Computer. Ein QR-Code enthält immer <code>tel:</code>, da Handykameras die anderen Schemata nicht verarbeiten."
+  },
+  "badgeFailed": {
+    "message": "SimpleDial: Der Anruf konnte nicht gestartet werden"
+  },
+  "popupPlaceholder": {
+    "message": "+49 30 123456"
+  },
+  "qrScope": {
+    "message": "Gilt für jeden Anruf, den SimpleDial startet: Rechtsklick &gt; Anrufen, die Anrufen-Schaltfläche im Feld und – falls unten aktiviert – ein Linksklick auf einen <code>tel:</code>-Link."
   }
 }

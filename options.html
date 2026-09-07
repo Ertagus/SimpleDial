@@ -30,6 +30,22 @@
       border-radius: 12px; padding: 24px;
       display: flex; flex-direction: column; gap: 16px;
     }
+    .section {
+      font-size: 12px; font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
+      color: var(--accent); margin: 26px 0 8px; padding: 0;
+    }
+    .section:first-of-type { margin-top: 8px; }
+    .card.is-inert { opacity: .55; }
+    .card.is-inert .override { display: block; }
+    .override {
+      display: none; margin-top: 8px; font-size: 12px; color: var(--accent);
+      border-left: 2px solid var(--accent); padding-left: 8px;
+    }
+    .sub-title {
+      font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .card .divider { margin: 18px 0 14px; }
     .card-title {
       font-size: 11px; font-weight: 700; letter-spacing: .1em;
       color: var(--muted); text-transform: uppercase;
@@ -101,34 +117,63 @@
       </div>
     </div>
 
+    <h2 class="section" data-i18n="secNumbers">1 · What counts as a phone number</h2>
     <div class="card">
-      <div class="card-title" data-i18n="cardRecognition">Number recognition</div>
       <p class="hint" data-i18n-html="recognitionHint">
         Regular expression applied to the candidate after removing spaces, dots, hyphens and brackets. Alternatives are separated with <code>|</code>. If it cannot be compiled, the default rules are used.
       </p>
       <textarea id="cfgRegex" spellcheck="false"></textarea>
       <div class="validation-msg" id="regexError"></div>
       <button class="btn btn-reset" id="btnResetRegex" data-i18n="btnResetRegex">↺ Restore default rules</button>
-    </div>
 
-    <div class="card">
-      <div class="card-title" data-i18n="cardTest">Test</div>
+      <div class="divider"></div>
+      <div class="sub-title" data-i18n="cardTest">Test</div>
       <p class="hint" data-i18n="testHint">
         Type a number as it would appear on a page to see whether it would be recognized with the rule currently set.
       </p>
       <input type="text" id="cfgTest" placeholder="+1 555 010 1234" data-i18n-placeholder="testPlaceholder" spellcheck="false">
       <div class="test-result" id="testResult"></div>
     </div>
-
+    <h2 class="section" data-i18n="secHow">2 · How the call goes out</h2>
     <div class="card">
-      <div class="card-title" data-i18n="cardHandlers">tel: protocol handler</div>
-      <p class="hint" data-i18n-html="handlersHint">
-        Chrome lists at <code>chrome://settings/handlers</code> the web applications allowed to handle <code>tel:</code> and lets you revoke them. If the number is meant to reach a softphone installed on the computer, that association belongs to the operating system and does not appear here.
+      <div class="card-title" data-i18n="cardQr">Call by QR code</div>
+      <label class="check-row">
+        <input type="checkbox" id="cfgQr">
+        <span data-i18n="qrToggle">Show a QR code instead of opening the phone application</span>
+      </label>
+      <p class="hint" data-i18n-html="qrToggleHint">
+        Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. While this is on, the toolbar icon always opens the typing panel, and the QR always uses tel: whatever the dialing protocol below is set to.
       </p>
-      <button class="btn btn-reset" id="btnHandlers" data-i18n="btnHandlers">↗ Open Chrome handler settings</button>
-      <div class="status" id="handlersStatus"></div>
+      <p class="scope hint" data-i18n-html="qrScope">
+        Applies to every call SimpleDial starts: right-click &gt; Call, the panel's Call button, and — if you turn it on below — a left-click on a <code>tel:</code> link.
+      </p>
     </div>
-
+    <div class="card">
+      <div class="card-title" data-i18n="cardProtocol">Dialing protocol</div>
+      <p class="hint" data-i18n-html="protocolHint">
+        Scheme handed to the handler registered in the system. <code>tel:</code> is right almost always. Change it if your softphone only answers to another scheme: some clients register for <code>callto:</code> or <code>sip:</code>.
+      </p>
+      <p class="scope hint" data-i18n-html="protocolScope">
+        Applies to calls placed from this computer. A QR code always encodes <code>tel:</code>, because phone cameras do not act on the other schemes.
+      </p>
+      <select id="cfgScheme">
+        <option value="tel">tel:</option>
+        <option value="callto">callto:</option>
+        <option value="sip">sip:</option>
+        <option value="skype">skype:</option>
+      </select>
+    </div>
+    <h2 class="section" data-i18n="secWhen">3 · What starts a call</h2>
+    <div class="card">
+      <div class="card-title" data-i18n="cardIntercept">Click on tel: links</div>
+      <label class="check-row">
+        <input type="checkbox" id="cfgIntercept">
+        <span data-i18n="interceptToggle">Handle left clicks on tel: links already present on the page</span>
+      </label>
+      <p class="hint" data-i18n-html="interceptToggleHint">
+        <b>Off by default.</b> Turn it on and a left-click on a <code>tel:</code> link goes through SimpleDial instead of the browser, ending up in whichever mode you chose above (QR code or phone application), exactly like right-click &gt; Call. The page is never modified. Hold Ctrl, Shift or Alt to let a click through to the browser's default behaviour.
+      </p>
+    </div>
     <div class="card">
       <div class="card-title" data-i18n="cardPopup">Toolbar icon</div>
       <label class="check-row">
@@ -139,31 +184,15 @@
         Off by default: clicking the icon opens the phone application straight away. When on, a small panel appears where a number can be typed — useful for numbers that are not on the page.
       </p>
     </div>
-
+    <h2 class="section" data-i18n="secSystem">4 · System handler</h2>
     <div class="card">
-      <div class="card-title" data-i18n="cardQr">Call by QR code</div>
-      <label class="check-row">
-        <input type="checkbox" id="cfgQr">
-        <span data-i18n="qrToggle">Show a QR code instead of opening the phone application</span>
-      </label>
-      <p class="hint" data-i18n="qrToggleHint">
-        Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. While this is on, the toolbar icon always opens the typing panel, and the QR always uses tel: whatever the dialing protocol below is set to.
+      <div class="card-title" data-i18n="cardHandlers">tel: protocol handler</div>
+      <p class="hint" data-i18n-html="handlersHint">
+        Chrome lists at <code>chrome://settings/handlers</code> the web applications allowed to handle <code>tel:</code> and lets you revoke them. If the number is meant to reach a softphone installed on the computer, that association belongs to the operating system and does not appear here.
       </p>
+      <button class="btn btn-reset" id="btnHandlers" data-i18n="btnHandlers">↗ Open Chrome handler settings</button>
+      <div class="status" id="handlersStatus"></div>
     </div>
-
-    <div class="card">
-      <div class="card-title" data-i18n="cardProtocol">Dialing protocol</div>
-      <p class="hint" data-i18n-html="protocolHint">
-        Scheme handed to the handler registered in the system. <code>tel:</code> is right almost always. Change it if your softphone only answers to another scheme: some clients register for <code>callto:</code> or <code>sip:</code>.
-      </p>
-      <select id="cfgScheme">
-        <option value="tel">tel:</option>
-        <option value="callto">callto:</option>
-        <option value="sip">sip:</option>
-        <option value="skype">skype:</option>
-      </select>
-    </div>
-
     <div class="card">
       <div class="actions">
         <button class="btn btn-primary" id="btnSave" data-i18n="btnSave">💾 Save</button>

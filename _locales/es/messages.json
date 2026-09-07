@@ -3,7 +3,7 @@
     "message": "SimpleDial"
   },
   "extDesc": {
-    "message": "Detecta números de teléfono en las páginas web y los marca mediante tel:, con la aplicación de teléfono predeterminada."
+    "message": "Clic derecho en un número o en un enlace tel:: SimpleDial muestra un QR para llamar desde el móvil, o abre el handler tel:."
   },
   "actionTitle": {
     "message": "SimpleDial — abrir la aplicación de teléfono"
@@ -30,10 +30,7 @@
     "message": "📞 SimpleDial — Opciones"
   },
   "infoBox": {
-    "message": "SimpleDial se limita a reconocer los números y a abrir <code>tel:número</code>. Quién atiende la llamada depende del gestor registrado en el navegador o en el sistema operativo.<br><br>El clic derecho sobre un enlace o sobre un número seleccionado muestra la opción <strong>Llamar</strong>. El icono de la barra de herramientas abre <code>tel:</code> sin número, mostrando la aplicación de teléfono tal cual.<br><br>En la primera llamada el navegador pide una sola vez autorización para abrir la aplicación asociada. Una vez concedida, no vuelve a pedirla en ningún sitio."
-  },
-  "cardRecognition": {
-    "message": "Reconocimiento de números"
+    "message": "SimpleDial se limita a reconocer los números y a entregarlos: nunca realiza la llamada por sí mismo y nunca modifica la página que estás viendo.<br><br><b>Qué inicia una llamada:</b> clic derecho en un enlace <code>tel:</code> o en un número seleccionado y elegir <b>Llamar</b>; o el clic en el icono de la barra. El simple clic izquierdo en un enlace <code>tel:</code> también puede pasar por SimpleDial, pero está desactivado hasta que lo actives abajo.<br><br><b>Adónde va:</b> al handler registrado en el navegador o en el sistema, o —con la opción QR activa— a un código que escaneas con el móvil, generado en este ordenador y no enviado a ninguna parte.<br><br>Cada vez que una llamada pasa por SimpleDial, el navegador pide <b>una sola vez</b> permiso para abrir la aplicación externa y no vuelve a pedirlo en ningún sitio. Los enlaces que se pulsan sin esa opción activa lo siguen pidiendo sitio por sitio, como de costumbre."
   },
   "recognitionHint": {
     "message": "Expresión regular aplicada al candidato tras eliminar espacios, puntos, guiones y paréntesis. Las alternativas se separan con <code>|</code>. Si no se puede compilar, se usan las reglas predeterminadas."
@@ -78,7 +75,7 @@
     "message": "Abrir un panel de marcación en lugar de la aplicación de teléfono"
   },
   "popupToggleHint": {
-    "message": "Desactivado de forma predeterminada: al hacer clic en el icono se abre directamente la aplicación de teléfono. Si se activa aparece un pequeño panel donde escribir un número — útil para los números que no están en la página."
+    "message": "Desactivado por defecto: el clic en el icono abre directamente la aplicación de teléfono, un acceso directo al marcador, con o sin la opción QR. Actívalo para tener un panel donde escribir un número que no está en la página."
   },
   "popupTitle": {
     "message": "Marcar un número"
@@ -99,7 +96,7 @@
     "message": "Mostrar un código QR en lugar de abrir la aplicación de teléfono"
   },
   "qrToggleHint": {
-    "message": "En lugar de abrir la aplicación de teléfono del ordenador, SimpleDial muestra un código QR: enfócalo con la cámara del móvil para iniciar la llamada desde ahí. Mientras esté activado, el icono de la barra de herramientas siempre abre el panel para escribir, y el QR siempre usa tel:, sea cual sea el protocolo de marcación configurado abajo."
+    "message": "En lugar de abrir la aplicación de teléfono del ordenador, SimpleDial muestra un código QR: apunta con la cámara del móvil para iniciar la llamada desde ahí. El QR siempre usa <code>tel:</code>, sea cual sea el protocolo configurado abajo."
   },
   "qrPageTitle": {
     "message": "Llamar con un código QR"
@@ -116,6 +113,15 @@
   "popupQrHint": {
     "message": "Se abrirá un código QR para este número."
   },
+  "cardIntercept": {
+    "message": "Clic en los enlaces tel:"
+  },
+  "interceptToggle": {
+    "message": "Gestionar el clic izquierdo en los enlaces tel: ya presentes en la página"
+  },
+  "interceptToggleHint": {
+    "message": "<b>Desactivado por defecto.</b> Al activarlo, el clic izquierdo en un enlace <code>tel:</code> pasa por SimpleDial en lugar del navegador y termina en el modo elegido arriba, exactamente como clic derecho &gt; Llamar.<br><br><b>Por qué activarlo:</b> el navegador pide permiso para abrir la aplicación de teléfono <b>una sola vez</b>, en lugar de volver a pedirlo en cada sitio nuevo.<br><br><b>Por qué no viene activado:</b> esa petición por sitio es una comprobación de seguridad, y saltársela debe ser tu decisión. Clic derecho &gt; Llamar pasa igualmente por SimpleDial. La página nunca se modifica, y manteniendo Ctrl, Shift o Alt el clic vuelve siempre al comportamiento normal del navegador."
+  },
   "cardHandlers": {
     "message": "Gestor del protocolo tel:"
   },
@@ -124,9 +130,6 @@
   },
   "btnHandlers": {
     "message": "↗ Abrir la configuración de gestores de Chrome"
-  },
-  "handlersCopied": {
-    "message": "Dirección copiada — pégala en la barra de direcciones"
   },
   "handlersManual": {
     "message": "Abre manualmente $url$",
@@ -148,5 +151,29 @@
   },
   "statusReset": {
     "message": "✓ Reglas restauradas"
+  },
+  "secNumbers": {
+    "message": "1 · Qué cuenta como número de teléfono"
+  },
+  "secHow": {
+    "message": "2 · Cómo sale la llamada"
+  },
+  "secWhen": {
+    "message": "3 · Qué inicia una llamada"
+  },
+  "secSystem": {
+    "message": "4 · Handler del sistema"
+  },
+  "protocolScope": {
+    "message": "Se aplica a las llamadas hechas desde este ordenador. Un código QR siempre usa <code>tel:</code>, porque las cámaras no interpretan los demás esquemas."
+  },
+  "badgeFailed": {
+    "message": "SimpleDial: no se pudo iniciar la llamada"
+  },
+  "popupPlaceholder": {
+    "message": "+34 91 123 45 67"
+  },
+  "qrScope": {
+    "message": "Se aplica a toda llamada que inicia SimpleDial: clic derecho &gt; Llamar, el botón Llamar del panel y —si lo activas abajo— el clic izquierdo en un enlace <code>tel:</code>."
   }
 }

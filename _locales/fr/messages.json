@@ -3,7 +3,7 @@
     "message": "SimpleDial"
   },
   "extDesc": {
-    "message": "Détecte les numéros de téléphone sur les pages web et les compose via tel:, avec l'application téléphone par défaut."
+    "message": "Clic droit sur un numéro ou clic sur un lien tel: : SimpleDial affiche un QR à scanner avec le téléphone, ou ouvre le handler tel:."
   },
   "actionTitle": {
     "message": "SimpleDial — ouvrir l'application téléphone"
@@ -30,10 +30,7 @@
     "message": "📞 SimpleDial — Options"
   },
   "infoBox": {
-    "message": "SimpleDial se contente de reconnaître les numéros et d'ouvrir <code>tel:numéro</code>. Qui prend l'appel dépend du gestionnaire enregistré dans le navigateur ou dans le système d'exploitation.<br><br>Le clic droit sur un lien ou sur un numéro sélectionné affiche l'entrée <strong>Appeler</strong>. L'icône de la barre d'outils ouvre <code>tel:</code> sans numéro, ce qui appelle l'application téléphone telle quelle.<br><br>Au premier appel, le navigateur demande une seule fois l'autorisation d'ouvrir l'application associée. Une fois accordée, il ne la redemande plus, sur aucun site."
-  },
-  "cardRecognition": {
-    "message": "Reconnaissance des numéros"
+    "message": "SimpleDial se contente de reconnaître les numéros et de les transmettre : il ne passe jamais l'appel lui-même et ne modifie jamais la page que vous consultez.<br><br><b>Ce qui déclenche un appel :</b> clic droit sur un lien <code>tel:</code> ou sur un numéro sélectionné puis <b>Appeler</b> ; ou le clic sur l'icône de la barre. Un simple clic gauche sur un lien <code>tel:</code> peut lui aussi passer par SimpleDial, mais il est désactivé tant que vous ne l'activez pas ci-dessous.<br><br><b>Où il aboutit :</b> au handler enregistré dans le navigateur ou le système, ou — avec l'option QR activée — à un code que vous scannez avec votre téléphone, généré sur cet ordinateur et envoyé nulle part.<br><br>Chaque fois qu'un appel passe par SimpleDial, le navigateur demande <b>une seule fois</b> l'autorisation d'ouvrir l'application externe et ne la redemande plus, sur aucun site. Les liens cliqués sans cette option activée continuent de la demander site par site, comme d'habitude."
   },
   "recognitionHint": {
     "message": "Expression régulière appliquée au candidat après suppression des espaces, points, tirets et parenthèses. Les alternatives se séparent par <code>|</code>. Si elle n'est pas compilable, les règles par défaut sont utilisées."
@@ -78,7 +75,7 @@
     "message": "Ouvrir un panneau de composition au lieu de l'application téléphone"
   },
   "popupToggleHint": {
-    "message": "Désactivé par défaut : un clic sur l'icône ouvre directement l'application téléphone. Une fois activé, un petit panneau apparaît pour saisir un numéro — utile pour les numéros absents de la page."
+    "message": "Désactivé par défaut : le clic sur l'icône ouvre directement l'application téléphone — un simple raccourci vers le clavier, avec ou sans l'option QR. Activez-le pour obtenir un petit panneau où saisir un numéro absent de la page."
   },
   "popupTitle": {
     "message": "Composer un numéro"
@@ -99,7 +96,7 @@
     "message": "Afficher un QR code au lieu d'ouvrir l'application téléphone"
   },
   "qrToggleHint": {
-    "message": "Au lieu d'ouvrir l'application téléphone de l'ordinateur, SimpleDial affiche un QR code : visez-le avec l'appareil photo de votre téléphone pour lancer l'appel depuis celui-ci. Tant que cette option est active, l'icône de la barre d'outils ouvre toujours le panneau de saisie, et le QR code utilise toujours tel:, quel que soit le protocole d'appel défini ci-dessous."
+    "message": "Au lieu d'ouvrir l'application téléphone de l'ordinateur, SimpleDial affiche un QR code : visez-le avec l'appareil photo du téléphone pour lancer l'appel depuis celui-ci. Le QR utilise toujours <code>tel:</code>, quel que soit le protocole choisi ci-dessous."
   },
   "qrPageTitle": {
     "message": "Appeler avec un QR code"
@@ -116,6 +113,15 @@
   "popupQrHint": {
     "message": "Un QR code s'ouvrira pour ce numéro."
   },
+  "cardIntercept": {
+    "message": "Clic sur les liens tel:"
+  },
+  "interceptToggle": {
+    "message": "Gérer le clic gauche sur les liens tel: déjà présents dans la page"
+  },
+  "interceptToggleHint": {
+    "message": "<b>Désactivé par défaut.</b> Une fois activé, un clic gauche sur un lien <code>tel:</code> passe par SimpleDial au lieu du navigateur et aboutit dans le mode choisi ci-dessus — exactement comme clic droit &gt; Appeler.<br><br><b>Pourquoi l'activer :</b> le navigateur demande l'autorisation d'ouvrir l'application téléphone <b>une seule fois</b>, au lieu de la redemander sur chaque nouveau site.<br><br><b>Pourquoi ce n'est pas activé par défaut :</b> cette demande par site est un garde-fou, et la contourner doit rester votre choix. Le clic droit &gt; Appeler passe de toute façon par SimpleDial. La page n'est jamais modifiée, et en maintenant Ctrl, Maj ou Alt le clic revient toujours au comportement normal du navigateur."
+  },
   "cardHandlers": {
     "message": "Gestionnaire du protocole tel:"
   },
@@ -124,9 +130,6 @@
   },
   "btnHandlers": {
     "message": "↗ Ouvrir les paramètres des gestionnaires de Chrome"
-  },
-  "handlersCopied": {
-    "message": "Adresse copiée — collez-la dans la barre d'adresse"
   },
   "handlersManual": {
     "message": "Ouvrez manuellement $url$",
@@ -148,5 +151,29 @@
   },
   "statusReset": {
     "message": "✓ Règles rétablies"
+  },
+  "secNumbers": {
+    "message": "1 · Ce qui compte comme numéro"
+  },
+  "secHow": {
+    "message": "2 · Comment part l'appel"
+  },
+  "secWhen": {
+    "message": "3 · Ce qui déclenche un appel"
+  },
+  "secSystem": {
+    "message": "4 · Handler du système"
+  },
+  "protocolScope": {
+    "message": "S'applique aux appels passés depuis cet ordinateur. Un QR code encode toujours <code>tel:</code>, car les appareils photo ne gèrent pas les autres schémas."
+  },
+  "badgeFailed": {
+    "message": "SimpleDial : l'appel n'a pas pu démarrer"
+  },
+  "popupPlaceholder": {
+    "message": "+33 1 23 45 67 89"
+  },
+  "qrScope": {
+    "message": "S'applique à tout appel lancé par SimpleDial : clic droit &gt; Appeler, le bouton Appeler du panneau et — si vous l'activez ci-dessous — un clic gauche sur un lien <code>tel:</code>."
   }
 }

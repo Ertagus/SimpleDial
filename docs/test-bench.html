@@ -60,7 +60,7 @@
       <br><br>
       Every <span class="exp-ok" style="font-family:var(--mono)">EXPECTED</span>
       line describes the correct behaviour with the default recognition rule.
-      Tested against SimpleDial <strong>v2.5.4</strong>.
+      Tested against SimpleDial <strong>v3.0.1</strong>.
     </div>
   </div>
 
@@ -71,45 +71,45 @@
 
     <div class="case">
       <div class="case-id">1.1 · national number with trunk prefix</div>
-      <div class="subject">Front desk: 020 7946 0312</div>
-      <div class="expect exp-ok">EXPECTED → Call 02079460312</div>
+      <div class="subject">Front desk: 0123 456 7890</div>
+      <div class="expect exp-ok">EXPECTED → Call 01234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.2 · E.164</div>
-      <div class="subject">Support: +1 212 555 0142</div>
-      <div class="expect exp-ok">EXPECTED → Call +12125550142</div>
+      <div class="subject">Support: +39 123 456 7890</div>
+      <div class="expect exp-ok">EXPECTED → Call +391234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.3 · international prefix in 00 form</div>
-      <div class="subject">Overseas office: 00 44 20 7946 0958</div>
-      <div class="expect exp-ok">EXPECTED → Call 00442079460958</div>
+      <div class="subject">Overseas office: 00 39 123 456 7890</div>
+      <div class="expect exp-ok">EXPECTED → Call 00391234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.4 · mixed separators — dots and dashes</div>
-      <div class="subject">Sales fax: 212.555-0187</div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550187</div>
+      <div class="subject">Sales fax: 123.456-7890</div>
+      <div class="expect exp-ok">EXPECTED → Call 1234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.5 · parentheses around the area code</div>
-      <div class="subject">Switchboard: (212) 555 0164</div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550164</div>
+      <div class="subject">Switchboard: (012) 345 67890</div>
+      <div class="expect exp-ok">EXPECTED → Call 01234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.6 · short number, no leading zero</div>
-      <div class="subject">Extension 4471</div>
-      <div class="expect exp-ok">EXPECTED → Call 4471 (select only "4471")</div>
-      <div class="expect exp-no">Selecting "Extension 4471" → no item</div>
+      <div class="subject">Extension 1234</div>
+      <div class="expect exp-ok">EXPECTED → Call 1234 (select only "1234")</div>
+      <div class="expect exp-no">Selecting "Extension 1234" → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">1.7 · text nested in inline elements</div>
-      <div class="subject">Direct: <strong>212</strong> <em>555</em> <span>0186</span></div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550186 (the selection spans the tags)</div>
+      <div class="subject">Direct: <strong>123</strong> <em>456</em> <span>7890</span></div>
+      <div class="expect exp-ok">EXPECTED → Call 1234567890 (the selection spans the tags)</div>
     </div>
   </div>
 
@@ -120,38 +120,38 @@
 
     <div class="case">
       <div class="case-id">2.1 · too short</div>
-      <div class="subject">Dept code 27</div>
+      <div class="subject">Dept code 12</div>
       <div class="expect exp-no">EXPECTED → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">2.2 · too long</div>
-      <div class="subject">IMEI 356938035643809412</div>
+      <div class="subject">IMEI 123456789012345678</div>
       <div class="expect exp-no">EXPECTED → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">2.3 · date</div>
-      <div class="subject">Expires 09/14/2026</div>
+      <div class="subject">Expires 01/02/2026</div>
       <div class="expect exp-no">EXPECTED → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">2.4 · amount</div>
-      <div class="subject">Total 1,249.90 USD</div>
+      <div class="subject">Total 1,234.56 USD</div>
       <div class="expect exp-no">EXPECTED → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">2.5 · digits with adjacent letters</div>
-      <div class="subject">Serial AB2125550142X</div>
+      <div class="subject">Serial AB1234567890X</div>
       <div class="expect exp-no">EXPECTED → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">2.6 · plausible false positive — a numeric ID</div>
-      <div class="subject">Conference code: 2125550142</div>
-      <div class="expect exp-warn">EXPECTED → Call 2125550142 — known false positive, indistinguishable from a phone number</div>
+      <div class="subject">Conference code: 1234567890</div>
+      <div class="expect exp-warn">EXPECTED → Call 1234567890 — known false positive, indistinguishable from a phone number</div>
     </div>
   </div>
 
@@ -163,37 +163,37 @@
 
     <div class="case">
       <div class="case-id">3.1 · href and text identical</div>
-      <div class="subject"><a href="tel:2125550130">212 555 0130</a></div>
-      <div class="raw">href="tel:2125550130"</div>
-      <div class="expect exp-ok">EXPECTED → one item only: Call 2125550130</div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a></div>
+      <div class="raw">href="tel:1234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item only: Call 1234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">3.2 · href E.164, text formatted</div>
-      <div class="subject"><a href="tel:+12125550171">+1 212 555 0171</a></div>
-      <div class="raw">href="tel:+12125550171"</div>
-      <div class="expect exp-ok">EXPECTED → one item only: Call +12125550171</div>
+      <div class="subject"><a href="tel:+391234567890">+39 123 456 7890</a></div>
+      <div class="raw">href="tel:+391234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item only: Call +391234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">3.3 · href with encoded + and spaces</div>
-      <div class="subject"><a href="tel:%2B1%20212%20555%200198">+1 212 555 0198</a></div>
-      <div class="raw">href="tel:%2B1%20212%20555%200198"</div>
-      <div class="expect exp-ok">EXPECTED → Call +12125550198 (decodeURIComponent check)</div>
+      <div class="subject"><a href="tel:%2B39%20123%20456%207890">+39 123 456 7890</a></div>
+      <div class="raw">href="tel:%2B39%20123%20456%207890"</div>
+      <div class="expect exp-ok">EXPECTED → Call +391234567890 (decodeURIComponent check)</div>
     </div>
 
     <div class="case">
       <div class="case-id">3.4 · uppercase scheme</div>
-      <div class="subject"><a href="TEL:2125550143">212 555 0143</a></div>
-      <div class="raw">href="TEL:2125550143"</div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550143 (case-insensitive selector)</div>
+      <div class="subject"><a href="TEL:1234567890">123 456 7890</a></div>
+      <div class="raw">href="TEL:1234567890"</div>
+      <div class="expect exp-ok">EXPECTED → Call 1234567890 (case-insensitive selector)</div>
     </div>
 
     <div class="case">
       <div class="case-id">3.5 · cursor on a child of the link</div>
-      <div class="subject"><a href="tel:2125550151"><span><strong>212 555 0151</strong></span></a></div>
-      <div class="raw">href="tel:2125550151" — the mouseover target is the &lt;strong&gt;</div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550151 (closest() check)</div>
+      <div class="subject"><a href="tel:1234567890"><span><strong>123 456 7890</strong></span></a></div>
+      <div class="raw">href="tel:1234567890" — the mouseover target is the &lt;strong&gt;</div>
+      <div class="expect exp-ok">EXPECTED → Call 1234567890 (closest() check)</div>
     </div>
   </div>
 
@@ -204,23 +204,23 @@
 
     <div class="case">
       <div class="case-id">4.1 · generic text</div>
-      <div class="subject"><a href="tel:2125550129">Call us now</a></div>
-      <div class="raw">href="tel:2125550129"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call 2125550129</div>
+      <div class="subject"><a href="tel:1234567890">Call us now</a></div>
+      <div class="raw">href="tel:1234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call 1234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">4.2 · text with emoji</div>
-      <div class="subject"><a href="tel:+12125550163">📞 Talk to an agent</a></div>
-      <div class="raw">href="tel:+12125550163"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call +12125550163</div>
+      <div class="subject"><a href="tel:+391234567890">📞 Talk to an agent</a></div>
+      <div class="raw">href="tel:+391234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call +391234567890</div>
     </div>
 
     <div class="case">
       <div class="case-id">4.3 · text containing a NON-phone number</div>
-      <div class="subject"><a href="tel:2125550137">Support 24/7</a></div>
-      <div class="raw">href="tel:2125550137" — text "Support 24/7"</div>
-      <div class="expect exp-ok">EXPECTED → one item only: Call 2125550137</div>
+      <div class="subject"><a href="tel:1234567890">Support 24/7</a></div>
+      <div class="raw">href="tel:1234567890" — text "Support 24/7"</div>
+      <div class="expect exp-ok">EXPECTED → one item only: Call 1234567890</div>
       <div class="expect exp-no">The text must not produce a second item</div>
     </div>
   </div>
@@ -234,24 +234,24 @@
 
     <div class="case">
       <div class="case-id">5.1 · total mismatch</div>
-      <div class="subject"><a href="tel:2125550111">212 555 0148</a></div>
-      <div class="raw">href="tel:2125550111" — text "212 555 0148"</div>
-      <div class="expect exp-ok">EXPECTED → two items: Call 2125550111 and Call 2125550148</div>
+      <div class="subject"><a href="tel:123456789">987 654 321</a></div>
+      <div class="raw">href="tel:123456789" — text "987 654 321"</div>
+      <div class="expect exp-ok">EXPECTED → two items: Call 123456789 and Call 987654321</div>
     </div>
 
     <div class="case">
       <div class="case-id">5.2 · href full number, text a differently-formatted number</div>
-      <div class="subject"><a href="tel:+12125557000">212 555 7042</a></div>
-      <div class="raw">href="tel:+12125557000" — text "212 555 7042"</div>
-      <div class="expect exp-ok">EXPECTED → two items: Call +12125557000 and Call 2125557042</div>
+      <div class="subject"><a href="tel:+391234567890">0123 456 7890</a></div>
+      <div class="raw">href="tel:+391234567890" — text "0123 456 7890"</div>
+      <div class="expect exp-ok">EXPECTED → two items: Call +391234567890 and Call 01234567890</div>
       <div class="expect exp-no">If the visible text contains any letters (e.g. "Ext. 3312") it is NOT recognised — only the href item appears. The text candidate must itself pass the recognition rule.</div>
     </div>
 
     <div class="case">
       <div class="case-id">5.3 · DTMF pause in the href — known limitation</div>
-      <div class="subject"><a href="tel:2125550188,,204">212 555 0188</a></div>
-      <div class="raw">href="tel:2125550188,,204" — DTMF pause + digits</div>
-      <div class="expect exp-warn">EXPECTED → two items: Call 2125550188204 (wrong — the comma and everything after it is merged into the number) and Call 2125550188 (from the text, correct)</div>
+      <div class="subject"><a href="tel:1234567890,,99">123 456 7890</a></div>
+      <div class="raw">href="tel:1234567890,,99" — DTMF pause + digits</div>
+      <div class="expect exp-warn">EXPECTED → two items: Call 123456789099 (wrong — the comma and everything after it is merged into the number) and Call 1234567890 (from the text, correct)</div>
       <div class="expect exp-no">Unlike ";" (truncated since v2.5.4), the DTMF "," is not cut at a boundary. Left to the softphone; dial the text item.</div>
     </div>
   </div>
@@ -264,16 +264,16 @@
 
     <div class="case">
       <div class="case-id">6.1 · callto: with the number as text</div>
-      <div class="subject"><a href="callto:2125550190">212 555 0190</a></div>
-      <div class="raw">href="callto:2125550190"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call 2125550190 (href + text deduplicate)</div>
+      <div class="subject"><a href="callto:1234567890">123 456 7890</a></div>
+      <div class="raw">href="callto:1234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call 1234567890 (href + text deduplicate)</div>
     </div>
 
     <div class="case">
       <div class="case-id">6.2 · callto: with descriptive text</div>
-      <div class="subject"><a href="callto:2125550177">Ring the help desk</a></div>
-      <div class="raw">href="callto:2125550177"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call 2125550177</div>
+      <div class="subject"><a href="callto:1234567890">Ring the help desk</a></div>
+      <div class="raw">href="callto:1234567890"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call 1234567890</div>
     </div>
   </div>
 
@@ -285,22 +285,22 @@
 
     <div class="case">
       <div class="case-id">7.1 · http link with the number as text</div>
-      <div class="subject"><a href="https://example.invalid/contact">212 555 0118</a></div>
+      <div class="subject"><a href="https://example.invalid/contact">123 456 7890</a></div>
       <div class="raw">href="https://example.invalid/contact"</div>
       <div class="expect exp-no">Cursor on the link only → no item</div>
-      <div class="expect exp-ok">Selecting the text → Call 2125550118</div>
+      <div class="expect exp-ok">Selecting the text → Call123 456 7890</div>
     </div>
 
     <div class="case">
       <div class="case-id">7.2 · mailto with a number in the text</div>
-      <div class="subject"><a href="mailto:info@example.invalid">Email or call 212 555 0135</a></div>
+      <div class="subject"><a href="mailto:info@example.invalid">Email or call 123 456 7890</a></div>
       <div class="raw">href="mailto:info@example.invalid"</div>
       <div class="expect exp-no">Cursor on the link only → no item</div>
     </div>
 
     <div class="case">
       <div class="case-id">7.3 · link with no href</div>
-      <div class="subject"><a>212 555 0199</a></div>
+      <div class="subject"><a>123 456 7890</a></div>
       <div class="raw">&lt;a&gt; with no href attribute</div>
       <div class="expect exp-no">Cursor on the link → no item (no crash on getAttribute)</div>
     </div>
@@ -311,10 +311,10 @@
     <div class="card-title">8 · Continuous prose — partial selections</div>
     <p class="hint">Checks the behaviour with selections that include unrelated text.</p>
     <p class="prose">
-      For the London office the number is 020 7946 0274, open Monday to Friday.
-      The warehouse answers on <a href="tel:2075550135">020 7555 0135</a>, while
+      For the London office the number is 0123 456 7890, open Monday to Friday.
+      The warehouse answers on <a href="tel:1234567890">0123 456 7890</a>, while
       for out-of-hours emergencies the mobile +44 7700 900120 stays on.
-      The fax line, 020 7946 0280, does not take voice calls.
+      The fax line, 0123 456 7890, does not take voice calls.
     </p>
     <div class="expect exp-ok">Selecting just a number → item present</div>
     <div class="expect exp-no">Selecting a whole sentence → no item</div>
@@ -326,8 +326,8 @@
 
     <div class="case">
       <div class="case-id">9.1 · number inside an input field</div>
-      <div class="subject"><input type="text" value="212 555 0155" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:12px;padding:8px 10px;width:220px"></div>
-      <div class="expect exp-ok">EXPECTED → Call 2125550155 (select inside the input; current Chrome exposes the input selection to window.getSelection())</div>
+      <div class="subject"><input type="text" value="123 456 7890" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:12px;padding:8px 10px;width:220px"></div>
+      <div class="expect exp-ok">EXPECTED → Call 1234567890 (select inside the input; current Chrome exposes the input selection to window.getSelection())</div>
     </div>
 
     <div class="case">
@@ -339,7 +339,7 @@
     <div class="case">
       <div class="case-id">9.3 · number inside an open Shadow DOM</div>
       <div id="shadowHost"></div>
-      <div class="expect exp-warn">EXPECTED → hovering the link: NOT detected (the event is retargeted to the host, closest() stops at the shadow boundary). Selecting the text: detected → Call 2125550172</div>
+      <div class="expect exp-warn">EXPECTED → hovering the link: NOT detected (the event is retargeted to the host, closest() stops at the shadow boundary). Selecting the text: detected → Call123 456 7890</div>
     </div>
 
     <div class="case">
@@ -351,10 +351,10 @@
     <div class="case">
       <div class="case-id">9.5 · two adjacent links — item refresh check</div>
       <div class="subject">
-        <a href="tel:2125550101">First</a> &nbsp;·&nbsp;
-        <a href="tel:2125550102">Second</a>
+        <a href="tel:1234567890">First</a> &nbsp;·&nbsp;
+        <a href="tel:987654321">Second</a>
       </div>
-      <div class="expect exp-ok">EXPECTED → moving from one to the other, the item shows the correct number, not the previous one</div>
+      <div class="expect exp-ok">EXPECTED → moving from one to the other, the item shows the number of the link under the pointer: Call 1234567890 on the first, Call 987654321 on the second — never the previous one</div>
     </div>
   </div>
 
@@ -369,32 +369,32 @@
 
     <div class="case">
       <div class="case-id">10.1 · ;ext= — href param vs. plain text</div>
-      <div class="subject"><a href="tel:+12125550142;ext=99">+1 212 555 0142</a></div>
-      <div class="raw">href="tel:+12125550142;ext=99" — text "+1 212 555 0142"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call +12125550142 (href param dropped → matches the text → deduplicated)</div>
-      <div class="expect exp-no">Before v2.5.4: two items, one of them Call +1212555014299</div>
+      <div class="subject"><a href="tel:+391234567890;ext=99">+39 123 456 7890</a></div>
+      <div class="raw">href="tel:+391234567890;ext=99" — text "+39 123 456 7890"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call +391234567890 (href param dropped → matches the text → deduplicated)</div>
+      <div class="expect exp-no">Before v2.5.4: two items, one of them Call +39123456789099</div>
     </div>
 
     <div class="case">
       <div class="case-id">10.2 · ;phone-context=</div>
-      <div class="subject"><a href="tel:5550187;phone-context=+1-212">555-0187</a></div>
-      <div class="raw">href="tel:5550187;phone-context=+1-212"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call 5550187</div>
+      <div class="subject"><a href="tel:1234567;phone-context=+39-012">123-4567</a></div>
+      <div class="raw">href="tel:1234567;phone-context=+39-012"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call 1234567</div>
       <div class="expect exp-no">Before v2.5.4: the context digits were merged into the number</div>
     </div>
 
     <div class="case">
       <div class="case-id">10.3 · encoded semicolon (%3B)</div>
-      <div class="subject"><a href="tel:%2B12125550142%3Bext%3D42">Reservations</a></div>
-      <div class="raw">href="tel:%2B12125550142%3Bext%3D42" → decodes to "+12125550142;ext=42"</div>
-      <div class="expect exp-ok">EXPECTED → one item: Call +12125550142 (truncation happens after decode)</div>
+      <div class="subject"><a href="tel:%2B391234567890%3Bext%3D42">Reservations</a></div>
+      <div class="raw">href="tel:%2B391234567890%3Bext%3D42" → decodes to "+391234567890;ext=42"</div>
+      <div class="expect exp-ok">EXPECTED → one item: Call +391234567890 (truncation happens after decode)</div>
     </div>
 
     <div class="case">
       <div class="case-id">10.4 · regression guard — no parameters</div>
-      <div class="subject"><a href="tel:+1 212 555 0158">+1 212 555 0158</a></div>
-      <div class="raw">href="tel:+1 212 555 0158"</div>
-      <div class="expect exp-ok">EXPECTED → Call +12125550158 (unchanged — a plain number is not affected)</div>
+      <div class="subject"><a href="tel:+39 123 456 7890">+39 123 456 7890</a></div>
+      <div class="raw">href="tel:+39 123 456 7890"</div>
+      <div class="expect exp-ok">EXPECTED → Call +391234567890 (unchanged — a plain number is not affected)</div>
     </div>
   </div>
 
@@ -405,25 +405,25 @@
 
     <div class="case">
       <div class="case-id">11.1 · first right-click after load</div>
-      <div class="subject"><a href="tel:2125550112">212 555 0112</a></div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a></div>
       <div class="expect exp-ok">Reload the page, then cursor on the link and IMMEDIATELY right-click → the item must be there</div>
     </div>
 
     <div class="case">
       <div class="case-id">11.2 · service worker terminated</div>
-      <div class="subject"><a href="tel:2125550134">212 555 0134</a></div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a></div>
       <div class="expect exp-ok">In chrome://extensions, terminate the service worker, then cursor + right-click + click → must dial (safety net derives the number from info.linkUrl)</div>
     </div>
 
     <div class="case">
       <div class="case-id">11.3 · repeated right-click on the same link</div>
-      <div class="subject"><a href="tel:2125550185">212 555 0185</a></div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a></div>
       <div class="expect exp-ok">Right-click, Esc, right-click → the item must be there both times</div>
     </div>
 
     <div class="case">
       <div class="case-id">11.4 · from a link to plain text</div>
-      <div class="subject"><a href="tel:2125550196">212 555 0196</a> then select 212 555 0170</div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a> then select 987 654 321</div>
       <div class="expect exp-ok">The link item must disappear once the cursor leaves the link</div>
     </div>
   </div>
@@ -431,14 +431,91 @@
   <div class="warn-box">
     <span style="font-size:15px;flex-shrink:0;margin-top:1px">⚠️</span>
     <div>
-      Every number is <strong>fictional</strong> (555-01xx / Ofcom drama ranges) and the
+      Every number is a <strong>visible pattern</strong> (1234567890 ascending, 987654321 descending) so it cannot be mistaken for a real line, and the
       domains use the reserved <code>.invalid</code> TLD. Clicking an item still opens
       <code>tel:</code> towards the system handler: to test without triggering anything,
       just check that the item appears with the expected number.
     </div>
   </div>
 
-  <footer>SimpleDial · context-menu test bench · v2.5.4</footer>
+  <!-- ─── 12. Labelled selections (RFC-free) — added in v3.0.1 ──────────── -->
+  <section>
+    <div class="card-title">12 · Selection that carries a label — added in v3.0.1</div>
+    <p class="hint">
+      Up to v3.0.0 a selection that dragged in the surrounding word produced
+      <strong>no item at all</strong>: the anchored rule was tested against the whole
+      string, letters included. Triple-clicking a line always hit this, because it grabs
+      the paragraph. v3.0.1 splits the selection on spaces, drops word-only tokens, and
+      rejects the lot if letters are glued to digits — so a label is ignored while a serial
+      number is still refused. <strong>Select the whole line, label included.</strong>
+    </p>
+
+    <div class="case">
+      <div class="case-id">12.1 · label before the number</div>
+      <div class="subject">Tel. 0123 456 7890</div>
+      <div class="expect">EXPECTED → Call 01234567890 — the label is dropped</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">12.2 · label after the number</div>
+      <div class="subject">+39 123 456 7890 office</div>
+      <div class="expect">EXPECTED → Call +391234567890</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">12.3 · label on both sides</div>
+      <div class="subject">Call us on 0123 456 7890 today</div>
+      <div class="expect">EXPECTED → Call 01234567890</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">12.4 · letters glued to the digits</div>
+      <div class="subject">Serial AB1234567890X</div>
+      <div class="expect exp-no">EXPECTED → no item — this is a serial, not a labelled number</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">12.5 · comma marks an amount, not a number</div>
+      <div class="subject">Total 1,234.56 USD</div>
+      <div class="expect exp-no">EXPECTED → no item — a comma never appears in a phone number</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">12.6 · slashes mark a date</div>
+      <div class="subject">Expires 01/02/2026</div>
+      <div class="expect exp-no">EXPECTED → no item — "/" is not a phone separator</div>
+    </div>
+  </section>
+
+  <!-- ─── 13. Left-click on tel: links — added in v3.0.1 ────────────────── -->
+  <section>
+    <div class="card-title">13 · Left-click handling — added in v3.0.1</div>
+    <p class="hint">
+      <strong>Off by default.</strong> Turn on "handle left-clicks on <code>tel:</code>
+      links" in the options first, otherwise every case below simply behaves as the browser
+      always did. Left-<em>click</em> these; do not right-click them.
+    </p>
+
+    <div class="case">
+      <div class="case-id">13.1 · plain left-click</div>
+      <div class="subject"><a href="tel:1234567890">123 456 7890</a></div>
+      <div class="expect">EXPECTED → SimpleDial places the call (QR window, or the handler)</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">13.2 · number the rule refuses — the click must not be lost</div>
+      <div class="subject"><a href="tel:12">27</a></div>
+      <div class="expect exp-no">EXPECTED → SimpleDial declines and the browser follows the link as usual</div>
+    </div>
+
+    <div class="case">
+      <div class="case-id">13.3 · Ctrl/Shift/Alt escape hatch</div>
+      <div class="subject"><a href="tel:987654321">987 654 321</a></div>
+      <div class="expect exp-no">EXPECTED → hold Ctrl, Shift or Alt: normal browser behaviour, SimpleDial stays out</div>
+    </div>
+  </section>
+
+  <footer>SimpleDial · context-menu test bench · v3.0.1</footer>
 </div>
 
 <script>
@@ -446,19 +523,19 @@
 document.getElementById('frameCase').srcdoc =
   '<body style="margin:0;padding:14px;background:#0d1117;color:#e6edf3;' +
   'font-family:sans-serif;font-size:14px">Branch in the frame: ' +
-  '<a href="tel:2125550166" style="color:#3d8bff">212 555 0166</a></body>';
+  '<a href="tel:123 456 7890" style="color:#3d8bff">123 456 7890</a></body>';
 
 // 9.3 — open Shadow DOM
 const host = document.getElementById('shadowHost');
 const root = host.attachShadow({ mode: 'open' });
 root.innerHTML =
   '<style>a{color:#3d8bff}div{font-size:15px;line-height:1.7}</style>' +
-  '<div>Number in the shadow root: <a href="tel:2125550172">212 555 0172</a></div>';
+  '<div>Number in the shadow root: <a href="tel:123 456 7890">123 456 7890</a></div>';
 
 // 9.4 — delayed insertion
 setTimeout(() => {
   document.getElementById('lateCase').innerHTML =
-    'Inserted dynamically: <a href="tel:2125550181">212 555 0181</a>';
+    'Inserted dynamically: <a href="tel:123 456 7890">123 456 7890</a>';
 }, 3000);
 </script>
 </body>

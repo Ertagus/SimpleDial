@@ -4,6 +4,41 @@ Tutte le modifiche rilevanti a SimpleDial sono annotate in questo file.
 Formato ispirato a [Keep a Changelog](https://keepachangelog.com/it/1.1.0/);
 il progetto segue il [versionamento semantico](https://semver.org/lang/it/).
 
+## [3.0.1] — 2026-09-07
+
+### Aggiunto
+- **Click sinistro sui link `"tel:"`, disattivo di default.** Attivandolo, il
+  click passa per l'estensione invece che per il browser: il permesso ad aprire
+  l'applicazione esterna viene chiesto una volta sola invece che sito per sito.
+  È spento di serie di proposito — quella richiesta per sito è un presidio di
+  sicurezza, e scavalcarla deve restare una scelta dell'utente. Ctrl, Shift o Alt
+  tenuti premuti lasciano comunque passare il click al browser, e se la pagina
+  gestisce già i propri link comanda lei.
+- **Segnale sull'icona quando una composizione fallisce.** Prima l'unica traccia
+  era un `console.warn` che nessun utente guarda.
+
+### Corretto
+- Una selezione che comprendeva l'etichetta attorno al numero («Tel. 02 1234567»)
+  non produceva alcuna voce di menu: la regola ancorata veniva applicata
+  all'intera stringa, lettere incluse, e il triplo clic ci cadeva sempre perché
+  prende il paragrafo. Ora la selezione viene divisa sugli spazi e le parole
+  scartate; se le lettere sono incollate alle cifre il candidato è rifiutato,
+  così un codice seriale resta escluso mentre un'etichetta viene ignorata.
+  Prezzi e date continuano a non essere riconosciuti.
+
+### Modificato
+- Pagina delle opzioni riorganizzata in quattro sezioni, con la portata di ogni
+  impostazione dichiarata accanto all'impostazione stessa.
+- L'icona nella barra resta un collegamento diretto all'applicazione telefono
+  anche con la modalità QR attiva: prima l'impostazione veniva sovrascritta.
+- Tutte le catene `.then()` convertite in `async`/`await`.
+- Chiave di traduzione dedicata per il segnaposto del pannello di composizione.
+- `homepage_url` e `author` dichiarati nel manifest.
+
+### Banco di prova
+- Due sezioni nuove, 52 casi in tutto, pubblicato su
+  [ertagus.github.io/SimpleDial/test-bench](https://ertagus.github.io/SimpleDial/test-bench).
+
 ## [3.0.0] — 2026-09-03
 
 Major perché la 2.5.5 ha rimosso una funzione utente (le esclusioni per sito) e
@@ -54,71 +89,3 @@ consegnata. Prima pubblicazione sul Chrome Web Store.
   conseguenza nella privacy policy e nella documentazione dello store.
 - «QR Code» è un marchio registrato di DENSO WAVE INCORPORATED, citato qui in
   senso descrittivo.
-
-## [2.5.5] — 2026-09-02
-
-### Corretto
-- Menu contestuale: quando viene riconosciuto un solo numero, la voce
-  «Chiama …» compare direttamente nel menu invece che annidata in un
-  sottomenu «SimpleDial ▸». Chrome raggruppa le voci di un'estensione quando
-  ne risultano registrate più di una per il contesto in cui si apre il menu,
-  e `visible: false` le nasconde ma **non** le de-registra: sul contesto
-  `link` restavano registrate sia `dial_href` sia `dial_text`, quindi il
-  sottomenu compariva anche con una sola voce visibile. Le voci senza numero
-  vengono ora parcheggiate su un `documentUrlPatterns` che non corrisponde a
-  nessuna pagina, e così escono dalla costruzione del menu. Con due numeri
-  diversi il sottomenu ricompare: quello è il comportamento voluto, non un
-  effetto collaterale.
-
-### Rimosso
-- **Esclusioni per sito.** La lista di domini su cui disattivare il
-  riconoscimento è stata tolta da pagina opzioni, content script e traduzioni.
-  Motivo: le voci di menu non venivano azzerate entrando su un sito escluso,
-  perciò la voce costruita per la pagina precedente restava nel menu e restava
-  cliccabile — componendo un numero che l'utente non aveva scelto lì. La
-  pagina delle opzioni prometteva in sei lingue che «la voce di menu non
-  compare», e non era vero. Un primo tentativo di correzione ha introdotto una
-  seconda regressione, facendo sparire la voce anche sulle pagine normali.
-  Nessuna versione era mai stata pubblicata, quindi la rimozione non toglie
-  nulla a nessuna installazione esistente: una funzione il cui scopo è *non*
-  agire, che poi agisce lo stesso, è peggio che assente. Se tornerà, la prima
-  cosa da progettare è l'azzeramento delle voci, non il riconoscimento del
-  dominio.
-
-### Modificato
-- L'invio dei numeri candidati dal content script al service worker non attende
-  più una lettura asincrona da `chrome.storage.local` — serviva solo a sapere se
-  il sito fosse escluso. È un passaggio asincrono in meno nel tratto fra il
-  click destro e il disegno del menu da parte di Chrome, che è il punto più
-  sensibile ai tempi in tutta l'estensione.
-- L'impostazione `excludedSites` in `chrome.storage.local` non viene più né
-  letta né scritta. Non viene spedito alcun codice di pulizia: nessuna versione
-  pubblicata l'ha mai impostata, quindi non esiste in nessun profilo utente.
-
-## [2.5.4] — 2026-09-02
-
-### Corretto
-- I parametri di un URI `tel:` (`;ext=`, `;phone-context=`, `;isub=`, RFC 3966)
-  non vengono più inglobati nel numero. Prima le loro cifre venivano saldate
-  in coda: `tel:+15550101234;ext=99` finiva composto come `+1555010123499`,
-  `tel:863-1234;phone-context=+1-914` come `86312341914`. Ora tutto ciò che
-  segue il primo `;` viene scartato prima della pulizia del numero, sia sul
-  link sotto al cursore (`content.js`, `cleanHref`) sia nella rete di
-  sicurezza del click sul menu contestuale (`background.js`). Il taglio
-  avviene dopo il decode, quindi copre anche un `;` codificato come `%3B`.
-  Il click diretto su un link `tel:` non era interessato: lo gestisce il
-  browser, che i parametri li interpreta correttamente.
-
-### Modificato
-- I rami di fallimento della composizione (creazione o navigazione della
-  scheda rifiutata da Chrome) ora scrivono un `console.warn` nel service
-  worker invece di fallire in silenzio: aiuta a capire perché una chiamata
-  non è partita. Nessun cambiamento visibile all'utente.
-- Il content script non passa più una callback di risposta al messaggio
-  `MENU_PREPARE` (non ne è mai attesa una): elimina un `lastError`
-  "message port closed" generato e subito scartato a ogni evento.
-
-<!--
-Le versioni precedenti alla 2.5.4 non erano tracciate in questo file.
-Il numero di versione di riferimento resta quello in manifest.json.
--->

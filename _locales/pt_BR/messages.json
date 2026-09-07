@@ -3,7 +3,7 @@
     "message": "SimpleDial"
   },
   "extDesc": {
-    "message": "Detecta números de telefone em páginas da web e disca via tel:, usando o aplicativo de telefone padrão do sistema."
+    "message": "Clique com o botão direito num número, ou num link tel:: o SimpleDial mostra um QR para ligar do celular, ou abre o handler tel:."
   },
   "actionTitle": {
     "message": "SimpleDial — abrir o aplicativo de telefone"
@@ -30,10 +30,7 @@
     "message": "📞 SimpleDial — Opções"
   },
   "infoBox": {
-    "message": "O SimpleDial apenas reconhece os números e abre <code>tel:número</code>. Quem atende a chamada depende do gerenciador registrado no navegador ou no sistema operacional.<br><br>O clique com o botão direito em um link ou em um número selecionado mostra a opção <strong>Ligar</strong>. O ícone na barra de ferramentas abre <code>tel:</code> sem número, trazendo o aplicativo de telefone como está.<br><br>Na primeira chamada o navegador pede uma única vez autorização para abrir o aplicativo associado. Concedida essa permissão, ele não pede mais, em nenhum site."
-  },
-  "cardRecognition": {
-    "message": "Reconhecimento de números"
+    "message": "O SimpleDial apenas reconhece os números e os entrega: nunca faz a ligação sozinho e nunca modifica a página que você está vendo.<br><br><b>O que inicia uma ligação:</b> clique com o botão direito em um link <code>tel:</code> ou em um número selecionado e escolha <b>Ligar</b>; ou o clique no ícone da barra. O simples clique esquerdo em um link <code>tel:</code> também pode passar pelo SimpleDial, mas está desativado até você habilitá-lo abaixo.<br><br><b>Para onde vai:</b> ao handler registrado no navegador ou no sistema, ou — com a opção QR ativa — a um código que você escaneia com o celular, gerado neste computador e não enviado a lugar nenhum.<br><br>Sempre que uma ligação passa pelo SimpleDial, o navegador pede <b>uma única vez</b> permissão para abrir o aplicativo externo e não pergunta mais, em nenhum site. Links clicados sem essa opção ativa continuam perguntando site a site, como de costume."
   },
   "recognitionHint": {
     "message": "Expressão regular aplicada ao candidato depois de removidos espaços, pontos, hífens e parênteses. As alternativas são separadas por <code>|</code>. Se não for compilável, valem as regras padrão."
@@ -78,7 +75,7 @@
     "message": "Abrir um painel de discagem em vez do aplicativo de telefone"
   },
   "popupToggleHint": {
-    "message": "Desativado por padrão: clicar no ícone abre direto o aplicativo de telefone. Quando ativado, aparece um pequeno painel para digitar um número — útil para números que não estão na página."
+    "message": "Desativado por padrão: o clique no ícone abre direto o aplicativo de telefone — um atalho para o discador, com ou sem a opção QR. Ative para ter um painel onde digitar um número que não está na página."
   },
   "popupTitle": {
     "message": "Discar um número"
@@ -99,7 +96,7 @@
     "message": "Mostrar um código QR em vez de abrir o aplicativo de telefone"
   },
   "qrToggleHint": {
-    "message": "Em vez de abrir o aplicativo de telefone do computador, o SimpleDial mostra um código QR: aponte a câmera do celular para ele para iniciar a chamada por lá. Enquanto isso estiver ativado, o ícone na barra de ferramentas sempre abre o painel de digitação, e o QR sempre usa tel:, seja qual for o protocolo de discagem definido abaixo."
+    "message": "Em vez de abrir o aplicativo de telefone do computador, o SimpleDial mostra um código QR: aponte a câmera do celular para iniciar a ligação por lá. O QR sempre usa <code>tel:</code>, seja qual for o protocolo definido abaixo."
   },
   "qrPageTitle": {
     "message": "Ligar com um código QR"
@@ -116,6 +113,15 @@
   "popupQrHint": {
     "message": "Um código QR será aberto para este número."
   },
+  "cardIntercept": {
+    "message": "Clique nos links tel:"
+  },
+  "interceptToggle": {
+    "message": "Tratar o clique esquerdo nos links tel: já presentes na página"
+  },
+  "interceptToggleHint": {
+    "message": "<b>Desativado por padrão.</b> Ao ativar, o clique esquerdo em um link <code>tel:</code> passa pelo SimpleDial em vez do navegador e termina no modo escolhido acima — exatamente como clique direito &gt; Ligar.<br><br><b>Por que ativar:</b> o navegador pede permissão para abrir o aplicativo de telefone <b>uma única vez</b>, em vez de pedir de novo em cada site.<br><br><b>Por que não vem ativado:</b> esse pedido por site é uma verificação de segurança, e ignorá-lo deve ser sua escolha. O clique direito &gt; Ligar passa pelo SimpleDial de qualquer forma. A página nunca é modificada, e segurando Ctrl, Shift ou Alt o clique volta sempre ao comportamento normal do navegador."
+  },
   "cardHandlers": {
     "message": "Gerenciador do protocolo tel:"
   },
@@ -124,9 +130,6 @@
   },
   "btnHandlers": {
     "message": "↗ Abrir as configurações de gerenciadores do Chrome"
-  },
-  "handlersCopied": {
-    "message": "Endereço copiado — cole na barra de endereços"
   },
   "handlersManual": {
     "message": "Abra manualmente $url$",
@@ -148,5 +151,29 @@
   },
   "statusReset": {
     "message": "✓ Regras restauradas"
+  },
+  "secNumbers": {
+    "message": "1 · O que conta como telefone"
+  },
+  "secHow": {
+    "message": "2 · Como a ligação sai"
+  },
+  "secWhen": {
+    "message": "3 · O que inicia uma ligação"
+  },
+  "secSystem": {
+    "message": "4 · Handler do sistema"
+  },
+  "protocolScope": {
+    "message": "Vale para ligações feitas deste computador. Um código QR sempre usa <code>tel:</code>, pois as câmeras não interpretam os outros esquemas."
+  },
+  "badgeFailed": {
+    "message": "SimpleDial: a ligação não foi iniciada"
+  },
+  "popupPlaceholder": {
+    "message": "+55 11 91234 5678"
+  },
+  "qrScope": {
+    "message": "Vale para toda ligação iniciada pelo SimpleDial: clique direito &gt; Ligar, o botão Ligar do painel e — se você ativar abaixo — o clique esquerdo em um link <code>tel:</code>."
   }
 }

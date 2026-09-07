@@ -1,4 +1,4 @@
-// SimpleDial — background service worker (v3.0.0)
+// SimpleDial — background service worker (v3.0.1)
 //
 // Le voci di menu vengono CREATE UNA SOLA VOLTA e poi solo aggiornate
 // (titolo + visibilita'). Non si distrugge/ricostruisce il menu al momento
@@ -36,15 +36,19 @@ const POPUP_PAGE = 'popup.html';
 const QR_PAGE    = 'qr.html';
 
 function applyPopupSetting() {
-  return chrome.storage.local.get(['usePopup', 'useQr'])
-    .then(cfg => {
-      // Con la modalita' QR attiva l'icona apre SEMPRE il pannello: un QR
-      // senza numero non ha senso e serve un campo dove digitarlo. In questa
-      // modalita' il pannello sovrascrive usePopup.
-      const wantPopup = cfg.useQr === true || cfg.usePopup === true;
-      return chrome.action.setPopup({ popup: wantPopup ? POPUP_PAGE : '' });
-    })
-    .catch(() => {});
+  return (async () => {
+    try {
+      const cfg = await chrome.storage.local.get(['usePopup']);
+      // usePopup e' INDIPENDENTE da useQr, di proposito. Cliccando l'icona si
+      // compone il numero vuoto, e dial() salta il ramo QR quando il numero e'
+      // vuoto (guardia "number &&"): l'icona resta quindi un collegamento
+      // diretto all'applicazione telefono anche con il QR attivo. Chi vuole
+      // digitare un numero attiva il pannello; chi vuole solo aprire il
+      // telefono lo lascia spento. Le quattro combinazioni sono tutte sensate.
+      const wantPopup = cfg.usePopup === true;
+      await chrome.action.setPopup({ popup: wantPopup ? POPUP_PAGE : '' });
+    } catch (_e) { /* impostazione non critica */ }
+  })();
 }
 
 const CONTEXTS = {
@@ -86,27 +90,32 @@ const DEFAULT_PHONE_REGEX = DEFAULT_PHONE_RULES.map(r => r.source).join('|');
 let regexPromise = null;
 function getRegex() {
   if (!regexPromise) {
-    regexPromise = chrome.storage.local.get(['phoneRegex'])
-      .then(cfg => cfg.phoneRegex || DEFAULT_PHONE_REGEX)
-      .catch(() => DEFAULT_PHONE_REGEX);
+    regexPromise = (async () => {
+      try { return (await chrome.storage.local.get(['phoneRegex'])).phoneRegex || DEFAULT_PHONE_REGEX; }
+      catch (_e) { return DEFAULT_PHONE_REGEX; }
+    })();
   }
   return regexPromise;
 }
 let schemePromise = null;
 function getScheme() {
   if (!schemePromise) {
-    schemePromise = chrome.storage.local.get(['scheme'])
-      .then(cfg => SCHEMES.includes(cfg.scheme) ? cfg.scheme : DEFAULT_SCHEME)
-      .catch(() => DEFAULT_SCHEME);
+    schemePromise = (async () => {
+      try {
+        const { scheme } = await chrome.storage.local.get(['scheme']);
+        return SCHEMES.includes(scheme) ? scheme : DEFAULT_SCHEME;
+      } catch (_e) { return DEFAULT_SCHEME; }
+    })();
   }
   return schemePromise;
 }
 let useQrPromise = null;
 function getUseQr() {
   if (!useQrPromise) {
-    useQrPromise = chrome.storage.local.get(['useQr'])
-      .then(cfg => cfg.useQr === true)
-      .catch(() => false);
+    useQrPromise = (async () => {
+      try { return (await chrome.storage.local.get(['useQr'])).useQr === true; }
+      catch (_e) { return false; }
+    })();
   }
   return useQrPromise;
 }
@@ -129,14 +138,56 @@ function cleanNumber(raw) {
   return (raw || '').replace(/[-.\s()]/g, '').replace(/[^0-9*#+]/g, '');
 }
 
-function isValidPhoneNumber(raw, pattern) {
-  const clean = (raw || '').replace(/[-.\s()]/g, '');
-  if (!clean) return false;
+function matches(value, pattern) {
   try {
-    return new RegExp(pattern).test(clean);
+    return new RegExp(pattern).test(value);
   } catch (_e) {
-    return DEFAULT_PHONE_RULES.some(re => re.test(clean));
+    return DEFAULT_PHONE_RULES.some(re => re.test(value));
   }
+}
+
+// Estrae il numero da un testo che puo' contenere altro.
+//
+// Fino alla 3.0.0 si validava il candidato INTERO: la pulizia toglie solo
+// separatori (- . spazio parentesi), non lettere, e le regole sono ancorate
+// ^...$, percio' "Tel. 02 1234567" non veniva riconosciuto e la voce di menu
+// spariva. Nelle pagine reali l'etichetta davanti al numero c'e' quasi sempre
+// e l'utente la trascina nella selezione: il percorso principale falliva.
+//
+// Ora: si prova prima il candidato intero (comportamento invariato per le
+// selezioni pulite), poi si cerca la sottostringa componibile piu' lunga e si
+// valida quella. Nessuna scansione della pagina: si lavora solo sul testo che
+// l'utente ha selezionato o sul link su cui ha cliccato.
+function extractNumber(raw, pattern) {
+  const direct = (raw || '').replace(/[-.\s()]/g, '');
+  if (!direct) return '';
+  // Percorso rapido: la selezione e' gia' un numero pulito.
+  if (matches(direct, pattern)) return cleanNumber(direct);
+
+  // La selezione contiene altro. La regola di riconoscimento e' configurabile
+  // dall'utente, quindi il discernimento sta QUI nel pre-trattamento, non nel
+  // pattern. Si separa sugli spazi e si guarda ogni pezzo:
+  //   "Tel."          solo lettere      -> etichetta, si scarta
+  //   "AB2125550142X" lettere E cifre   -> seriale, si RIFIUTA tutto
+  // Scartare le lettere e basta trasformerebbe un seriale in un numero.
+  const rest = [];
+  for (const tok of (raw || '').split(/\s+/)) {
+    if (!tok) continue;
+    const hasLetter = /[A-Za-zÀ-ɏ]/.test(tok);
+    if (hasLetter && /\d/.test(tok)) return '';
+    if (hasLetter) continue;
+    rest.push(tok);
+  }
+  if (!rest.length) return '';
+
+  // Restano solo i separatori che un numero di telefono puo' contenere.
+  // La virgola (migliaia: "1,249.90") e la barra (data: "09/14/2026") non ne
+  // fanno parte: se compaiono, la selezione non e' un numero.
+  const cand = rest.join('');
+  if (!/^[0-9+*#\-.()]+$/.test(cand)) return '';
+
+  const clean = cand.replace(/[-.()]/g, '');
+  return matches(clean, pattern) ? cleanNumber(clean) : '';
 }
 
 // ─── Menu contestuale ─────────────────────────────────────────────────────────
@@ -170,17 +221,19 @@ function createMenus() {
 let ensurePromise = null;
 function ensureMenus() {
   if (!ensurePromise) {
-    ensurePromise = chrome.storage.session.get('menusReady').then(async r => {
+    ensurePromise = (async () => {
+      const r = await chrome.storage.session.get('menusReady');
       if (r && r.menusReady) return;
       await createMenus();
       await chrome.storage.session.set({ menusReady: true });
-    }).catch(() => {});
+    })().catch(() => {});
   }
   return ensurePromise;
 }
 
 async function resetMenus() {
   ensurePromise = null;
+  lastPrepareSig = null;
   await chrome.storage.session.set({ menusReady: false, numbers: {} });
   await ensureMenus();
 }
@@ -194,6 +247,11 @@ applyPopupSetting();
 ensureMenus();
 
 // ─── Preparazione voci ────────────────────────────────────────────────────────
+// Firma dell'ultimo set di numeri applicato al menu. Vive quanto il service
+// worker: se questo viene terminato la firma si perde e il primo messaggio
+// successivo riapplica tutto, che e' il comportamento voluto.
+let lastPrepareSig = null;
+
 async function handlePrepare(msg) {
   await ensureMenus();
   const pattern = await getRegex();
@@ -209,12 +267,19 @@ async function handlePrepare(msg) {
   const seen = new Set();
   const numbers = {};
   for (const c of candidates) {
-    if (!isValidPhoneNumber(c.raw, pattern)) continue;
-    const n = cleanNumber(c.raw);
+    const n = extractNumber(c.raw, pattern);
     if (!n || seen.has(n)) continue;
     seen.add(n);
     numbers[c.id] = n;
   }
+
+  // Se i numeri non sono cambiati rispetto all'ultimo giro non si tocca nulla:
+  // il content script deduplica per frame, ma passando da un frame all'altro o
+  // alternando link e testo i messaggi ripartono, e ogni giro costava una
+  // scrittura in storage piu' tre update del menu.
+  const sig = JSON.stringify(numbers);
+  if (sig === lastPrepareSig) return;
+  lastPrepareSig = sig;
 
   // Persistito, non tenuto in memoria: il service worker puo' essere
   // terminato fra la costruzione del menu e il click dell'utente.
@@ -243,7 +308,32 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   // sender.url del sito, che non parte dal nostro origin.
   if (msg.type === 'dial') {
     if (sender.id !== chrome.runtime.id) return;
-    if (!sender.url || !sender.url.startsWith(chrome.runtime.getURL(''))) return;
+
+    // Click intercettato su un link tel:/callto: della pagina (v3.0.1).
+    // Il mittente e' un content script, non una pagina dell'estensione: il
+    // numero arriva dal DOM di un sito e va quindi RIVALIDATO qui contro la
+    // regola in vigore, mentre il numero digitato nel pannello e' scritto
+    // dall'utente e viene accettato com'e'.
+    if (!sender.url || !sender.url.startsWith(chrome.runtime.getURL(''))) {
+      // Senza scheda non c'e' dove navigare: nessuna risposta, e il content
+      // script ripristina da se' il comportamento originale del link.
+      if (!sender.tab || typeof sender.tab.id !== 'number') return;
+      // La risposta e' obbligatoria e deve dire se il click e' stato preso in
+      // carico: il content script ha gia' annullato la navigazione, quindi un
+      // "no" (numero rifiutato dalla regola) deve tornare indietro come
+      // permesso di seguire il link, altrimenti il click sparisce nel nulla.
+      (async () => {
+        try {
+          const ok = await handleLinkClick(
+            typeof msg.number === 'string' ? msg.number : '', sender.tab.id);
+          sendResponse({ ok });
+        } catch (_e) {
+          sendResponse({ ok: false });
+        }
+      })();
+      return true;   // risposta asincrona
+    }
+
     // direct:true (pulsante "chiama da questo computer" nella finestra QR)
     // salta il ramo QR ed esegue la composizione normale verso tel:.
     dialActiveTab(typeof msg.number === 'string' ? cleanNumber(msg.number) : '',
@@ -258,6 +348,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type !== 'MENU_PREPARE') return;
   handlePrepare(msg);
 });
+
+// Click su un link tel:/callto: intercettato dal content script.
+// Stessa dial() del menu contestuale: un solo percorso di composizione.
+// La pagina NON viene toccata: il content script si limita ad annullare la
+// navigazione predefinita e a passare qui il numero.
+async function handleLinkClick(raw, tabId) {
+  const number = extractNumber(raw, await getRegex());
+  if (!number) return false;
+  dial(tabId, number);
+  return true;
+}
 
 // ─── Composizione ─────────────────────────────────────────────────────────────
 // La scheda corrente viene navigata verso tel:NUMERO.
@@ -307,14 +408,41 @@ function buildUrl(scheme, number) {
 // vuota e Chrome interpreta la stringa come input della barra indirizzi,
 // leggendo "tel" come host e il numero come porta -> http://tel:NUMERO/.
 // Si apre quindi una scheda vuota e la si naviga con update, che invece
+// ─── Riscontro visibile ───────────────────────────────────────────────────────
+// Una composizione fallita lasciava solo un console.warn, che nessun utente
+// guarda: il click sembrava non aver fatto nulla. Il badge sull'icona e' il
+// riscontro piu' economico e non richiede permessi (la chiave "action" c'e'
+// gia'). Il service worker e' effimero, quindi il setTimeout puo' non arrivare
+// mai: per questo il badge viene ripulito anche all'INIZIO di ogni tentativo,
+// cosi' un residuo sparisce comunque al primo uso successivo.
+const BADGE_MS = 4000;
+
+function clearBadge() {
+  chrome.action.setBadgeText({ text: '' }, () => void chrome.runtime.lastError);
+  // Anche il titolo va ripristinato: il setTimeout di failBadge puo' non
+  // arrivare mai se il service worker viene terminato prima, e un tooltip
+  // fermo su "la chiamata non e' partita" sopravviverebbe al badge.
+  chrome.action.setTitle(
+    { title: chrome.i18n.getMessage('actionTitle') }, () => void chrome.runtime.lastError);
+}
+
+function failBadge(motivo) {
+  console.warn('SimpleDial: ' + motivo);
+  chrome.action.setBadgeBackgroundColor({ color: '#c0392b' }, () => void chrome.runtime.lastError);
+  chrome.action.setBadgeText({ text: '!' }, () => void chrome.runtime.lastError);
+  chrome.action.setTitle(
+    { title: chrome.i18n.getMessage('badgeFailed') }, () => void chrome.runtime.lastError);
+  setTimeout(clearBadge, BADGE_MS);
+}
+
 // riconosce il protocollo e lo consegna all'handler.
 function openInNewTab(url) {
   chrome.tabs.create({ url: 'about:blank' }, tab => {
     if (chrome.runtime.lastError || !tab) {
       // Vicolo cieco: la composizione non parte e l'utente non vedrebbe nulla.
       // Il warning resta nella console del service worker per la diagnosi.
-      console.warn('SimpleDial: impossibile aprire una scheda per', url,
-        '—', (chrome.runtime.lastError && chrome.runtime.lastError.message) || 'nessuna scheda');
+      failBadge('impossibile aprire una scheda per ' + url + ' — ' +
+        ((chrome.runtime.lastError && chrome.runtime.lastError.message) || 'nessuna scheda'));
       return;
     }
     // La scheda appena creata puo' non essere ancora pronta a navigare:
@@ -328,8 +456,7 @@ function openInNewTab(url) {
         // La si chiude — non a tempo, ma solo qui dove e' certo che sia
         // vuota: sul percorso di successo la scheda diventa la pagina
         // dell'handler (quando l'handler tel: e' una web app) e va tenuta.
-        console.warn('SimpleDial: navigazione verso', url, 'fallita —',
-          chrome.runtime.lastError.message);
+        failBadge('navigazione verso ' + url + ' fallita — ' + chrome.runtime.lastError.message);
         chrome.tabs.remove(tab.id, () => void chrome.runtime.lastError);
       }), 150);
     });
@@ -342,15 +469,18 @@ function openInNewTab(url) {
 // storage.session, mai in query string: coerente con come viaggiano gli altri
 // dati e fuori da qualunque URL. Il QR forza sempre tel:, qualunque sia lo
 // schema impostato: una fotocamera non sa che farsene di callto:/sip:/skype:.
-function openQrWindow(number) {
-  chrome.storage.session.set({ qrNumber: number || '' })
-    .then(() => chrome.windows.create(
-      { url: QR_PAGE, type: 'popup', width: 360, height: 500, focused: true },
-      () => void chrome.runtime.lastError))
-    .catch(() => {});
+async function openQrWindow(number) {
+  try {
+    await chrome.storage.session.set({ qrNumber: number || '' });
+    await chrome.windows.create(
+      { url: QR_PAGE, type: 'popup', width: 360, height: 500, focused: true });
+  } catch (_e) {
+    failBadge('finestra QR non aperta');
+  }
 }
 
 async function dial(tabId, number, direct) {
+  clearBadge();
   if (!direct && number && await getUseQr()) { openQrWindow(number); return; }
 
   const url = buildUrl(await getScheme(), number);
@@ -370,8 +500,7 @@ async function dial(tabId, number, direct) {
 function openHandlers() {
   chrome.tabs.create({ url: HANDLERS_URL }, () => {
     if (chrome.runtime.lastError) {
-      console.warn('SimpleDial: impossibile aprire', HANDLERS_URL, '—',
-        chrome.runtime.lastError.message);
+      failBadge('impossibile aprire ' + HANDLERS_URL + ' — ' + chrome.runtime.lastError.message);
     }
   });
 }
@@ -395,8 +524,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       // il taglio le loro cifre finirebbero saldate al numero.
       raw = raw.split(';')[0];
       number = cleanNumber(raw);
-    } else if (info.selectionText && isValidPhoneNumber(info.selectionText, pattern)) {
-      number = cleanNumber(info.selectionText);
+    } else if (info.selectionText) {
+      number = extractNumber(info.selectionText, pattern);
     }
   }
 
@@ -409,13 +538,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 // QR ha windowType 'popup', e tabs.update senza tabId colpirebbe lei — proprio
 // quando si preme "chiama da questo computer". tabs.query non richiede il
 // permesso 'tabs' per leggere il solo .id.
-function normalWindowActiveTabId() {
-  return chrome.tabs.query({ active: true, lastFocusedWindow: true, windowType: 'normal' })
-    .then(tabs => (tabs && tabs.length) ? tabs[0].id : null)
-    .then(id => id != null ? id
-      : chrome.tabs.query({ active: true, windowType: 'normal' })
-          .then(tabs => (tabs && tabs.length) ? tabs[0].id : null))
-    .catch(() => null);
+async function normalWindowActiveTabId() {
+  try {
+    let t = await chrome.tabs.query({ active: true, lastFocusedWindow: true, windowType: 'normal' });
+    if (t && t.length) return t[0].id;
+    t = await chrome.tabs.query({ active: true, windowType: 'normal' });
+    return (t && t.length) ? t[0].id : null;
+  } catch (_e) {
+    return null;
+  }
 }
 
 async function dialActiveTab(number, direct) {

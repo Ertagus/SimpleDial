@@ -3,7 +3,7 @@
     "message": "SimpleDial"
   },
   "extDesc": {
-    "message": "Detects phone numbers on web pages and dials them via tel:, using your system's default phone application."
+    "message": "Right-click a number, or click a tel: link: SimpleDial shows a QR code to call from your phone, or opens the tel: handler."
   },
   "actionTitle": {
     "message": "SimpleDial — open the phone application"
@@ -30,10 +30,7 @@
     "message": "📞 SimpleDial — Options"
   },
   "infoBox": {
-    "message": "SimpleDial only recognizes numbers and opens <code>tel:number</code>. Who answers the call depends on the handler registered in the browser or in the operating system.<br><br>Right-clicking a link or a selected number shows the <strong>Call</strong> entry. The toolbar icon opens <code>tel:</code> with no number, bringing up the phone application as it is.<br><br>On the first call the browser asks once for permission to open the associated application. Once granted, it never asks again, on any site."
-  },
-  "cardRecognition": {
-    "message": "Number recognition"
+    "message": "SimpleDial only recognizes numbers and hands them over — it never places the call itself, and it never modifies the page you are on.<br><br><b>What starts a call:</b> right-click a <code>tel:</code> link or a number you selected and pick <b>Call</b>; or click the toolbar icon. A plain left-click on a <code>tel:</code> link can be routed through SimpleDial too, but that is off until you turn it on below.<br><br><b>Where it goes:</b> either to the phone handler registered in your browser or system, or — with the QR option on — to a code you scan with your phone, built on this computer and sent nowhere.<br><br>Whenever a call goes through SimpleDial, the browser asks <b>once</b> for permission to open the external application and never asks again, on any site. Links you click without that option enabled keep asking per site, as usual."
   },
   "recognitionHint": {
     "message": "Regular expression applied to the candidate after removing spaces, dots, hyphens and brackets. Alternatives are separated with <code>|</code>. If it cannot be compiled, the default rules are used."
@@ -78,7 +75,7 @@
     "message": "Open a dialing panel instead of the phone application"
   },
   "popupToggleHint": {
-    "message": "Off by default: clicking the icon opens the phone application straight away. When on, a small panel appears where a number can be typed — useful for numbers that are not on the page."
+    "message": "Off by default: clicking the icon opens your phone application straight away — a plain shortcut to the dialer, with or without the QR option. Turn it on to get a small panel where you can type a number that is not on the page."
   },
   "popupTitle": {
     "message": "Dial a number"
@@ -99,7 +96,7 @@
     "message": "Show a QR code instead of opening the phone application"
   },
   "qrToggleHint": {
-    "message": "Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. While this is on, the toolbar icon always opens the typing panel, and the QR always uses tel: whatever the dialing protocol below is set to."
+    "message": "Instead of opening the computer's phone application, SimpleDial shows a QR code: point your phone's camera at it to start the call from there. The QR always uses <code>tel:</code>, whatever dialing protocol is set below."
   },
   "qrPageTitle": {
     "message": "Call by QR code"
@@ -116,6 +113,15 @@
   "popupQrHint": {
     "message": "A QR code will open for this number."
   },
+  "cardIntercept": {
+    "message": "Click on tel: links"
+  },
+  "interceptToggle": {
+    "message": "Handle left clicks on tel: links already present on the page"
+  },
+  "interceptToggleHint": {
+    "message": "<b>Off by default.</b> Turn it on and a left-click on a <code>tel:</code> link goes through SimpleDial instead of the browser, ending up in whichever mode you chose above — exactly like right-click &gt; Call.<br><br><b>Why you might want it:</b> the browser asks for permission to open your phone application <b>once</b>, instead of asking again on every new site.<br><br><b>Why it is not on by default:</b> that per-site prompt is a safety check, and skipping it should be your choice. Right-click &gt; Call already goes through SimpleDial either way. The page is never modified, and holding Ctrl, Shift or Alt always falls back to the browser's normal behaviour."
+  },
   "cardHandlers": {
     "message": "tel: protocol handler"
   },
@@ -124,9 +130,6 @@
   },
   "btnHandlers": {
     "message": "↗ Open Chrome handler settings"
-  },
-  "handlersCopied": {
-    "message": "Address copied — paste it in the address bar"
   },
   "handlersManual": {
     "message": "Open $url$ manually",
@@ -148,5 +151,29 @@
   },
   "statusReset": {
     "message": "✓ Rules restored"
+  },
+  "secNumbers": {
+    "message": "1 · What counts as a phone number"
+  },
+  "secHow": {
+    "message": "2 · How the call goes out"
+  },
+  "secWhen": {
+    "message": "3 · What starts a call"
+  },
+  "secSystem": {
+    "message": "4 · System handler"
+  },
+  "protocolScope": {
+    "message": "Applies to calls placed from this computer. A QR code always encodes <code>tel:</code>, because phone cameras do not act on the other schemes."
+  },
+  "badgeFailed": {
+    "message": "SimpleDial: the call could not be started"
+  },
+  "popupPlaceholder": {
+    "message": "+1 555 010 1234"
+  },
+  "qrScope": {
+    "message": "Applies to every call SimpleDial starts: right-click &gt; Call, the panel's Call button, and — if you turn it on below — a left-click on a <code>tel:</code> link."
   }
 }

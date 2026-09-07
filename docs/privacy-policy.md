@@ -1,6 +1,6 @@
 # Privacy Policy for SimpleDial
 
-_Last updated: 2026-09-03_
+_Last updated: 2026-09-07_
 
 SimpleDial is a browser extension that recognizes phone numbers on web pages and lets you
 place a call through the phone handler registered in your browser or operating system (via
@@ -28,6 +28,11 @@ prepares it slightly in advance:
    build the "Call <number>" entry and place the call you choose.
 2. **A number you type into the dialing panel** (the small popup opened from the toolbar
    icon, if you enable it) — used solely to place that call.
+3. **A `tel:` link you left-click**, but only if you switch on "handle left-clicks on
+   `tel:` links", which is **off by default**. With it on, SimpleDial reads the address of
+   the link you clicked and places that call instead of letting the browser hand it over.
+   It reads nothing else, and holding Ctrl, Shift or Alt always leaves the click to the
+   browser.
 
 These values are held briefly in the browser's session storage, which the browser clears
 when it closes. They are never written permanently to disk, never sent to us, and never
@@ -41,7 +46,9 @@ image is fetched from anywhere, and the number still never leaves your device.
 
 Nothing else on the page is read: not the surrounding content, not form fields, not what
 you type elsewhere. SimpleDial never scans or indexes pages, does **not** modify any page,
-and does **not** track which pages you visit.
+and does **not** track which pages you visit. It does listen for clicks and pointer
+movement in order to know what you are pointing at — but only ever looks at the link or
+selection itself, never at anything around it.
 
 ## Where the Number Goes
 
@@ -74,7 +81,8 @@ extension storage:
 - the phone-number recognition rule,
 - the dialing scheme (`tel:`, `callto:`, `sip:`, or `skype:`),
 - whether the toolbar icon opens your phone app or a dialing panel,
-- whether calls are shown as a QR code instead of being placed from this computer.
+- whether calls are shown as a QR code instead of being placed from this computer,
+- whether a left-click on a `tel:` link is handled by SimpleDial (off unless you turn it on).
 
 This data stays on your device. It is **not** synced to any account and **not** transmitted
 to us or to anyone else. Removing the extension deletes it.
